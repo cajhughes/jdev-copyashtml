@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<ex:extension xmlns:ex="http://jcp.org/jsr/198/extension-manifest"
+              xmlns="http://xmlns.oracle.com/jdeveloper/1013/extension"
+              id="chughes.jdev.CopyAsHTML"
+              version="10.1.3.0.5"
+              esdk-version="1.0"
+              rsbundle-class="chughes.jdev.copy.view.resource.CopyResources">
+  <ex:name rskey="CopyAddinName"/>
+  <ex:owner>Chris Hughes</ex:owner>
+  <ex:hooks>
+    <jdeveloper-hook>
+      <addins>
+        <addin>chughes.jdev.copy.controller.CopyAsHTML</addin>
+      </addins>
+    </jdeveloper-hook>
+    <ex:feature-hook>
+      <ex:description rskey="CopyAddinDescription"/>
+      <ex:optional>true</ex:optional>
+    </ex:feature-hook>
+  </ex:hooks>
+</ex:extension>
