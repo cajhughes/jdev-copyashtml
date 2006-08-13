@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<project name="Project" default="all" basedir=".">
+  <property file="build.properties"/>
+  <path id="library.JDeveloper.Extension.SDK">
+    <pathelement location="${oracle.home}/ide/lib/ide.jar"/>
+    <pathelement location="${oracle.home}/ide/lib/javatools.jar"/>
+    <pathelement location="${oracle.home}/ide/lib/javax-ide.jar"/>
+  </path>
+  <path id="classpath">
+    <path refid="library.JDeveloper.Extension.SDK"/>
+  </path>
+  <target name="init">
+    <tstamp/>
+  </target>
+  <target name="all" description="Build the project" depends="clean,jar,copyZip">
+    <zip destfile="${dist.dir}/CopyAsHTML.zip" basedir="${dist.dir}"/>
+  </target>
+  <target name="clean" description="Clean the project">
+    <delete dir="${build.dir}"/>
+    <delete dir="${dist.dir}"/>
+  </target>
+  <target name="compile" description="Compile Java source files" depends="init">
+    <mkdir dir="${build.dir}"/>
+    <javac destdir="${build.dir}" classpathref="classpath"
+           debug="${javac.debug}" nowarn="${javac.nowarn}"
+           deprecation="${javac.deprecation}" encoding="Cp1252">
+      <src path="src"/>
+    </javac>
+  </target>
+  <target name="copyJar" description="Copy files for inclusion in JAR" depends="init">
+    <patternset id="copyJar.patterns">
+      <include name="**/*.gif"/>
+      <include name="**/*.properties"/>
+      <include name="**/*.xml"/>
+    </patternset>
+    <copy todir="${build.dir}">
+      <fileset dir="src">
+        <patternset refid="copyJar.patterns"/>
+      </fileset>
+    </copy>
+  </target>
+  <target name="jar" description="Construct JAR file" depends="compile,copyJar">
+    <mkdir dir="${dist.dir}"/>
+    <jar destfile="${dist.dir}/chughes.jdev.CopyAsHTML.jar" basedir="${build.dir}"/>
+  </target>
+  <target name="copyZip" description="Copy files for inclusion in ZIP" depends="init">
+    <patternset id="copyZip.patterns">
+      <include name="**/*.xml"/>
+    </patternset>
+    <copy todir="${dist.dir}">
+      <fileset dir="extension">
+        <patternset refid="copyZip.patterns"/>
+      </fileset>
+    </copy>
+  </target>
+</project>
