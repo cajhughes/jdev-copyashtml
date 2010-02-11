@@ -19,10 +19,15 @@
           <command-class>com.cajhughes.jdev.copy.CopyCommand</command-class>
         </action>
       </actions>
+      <context-menu-listeners>
+        <site idref="editor">
+          <listener-class>com.cajhughes.jdev.copy.view.CopyMenuListener</listener-class>
+        </site>
+      </context-menu-listeners>
     </jdeveloper-hook>
     <settings-ui-hook xmlns="http://xmlns.oracle.com/ide/extension">
       <page id="com.cajhughes.jdev.CopyAsHtml" parent-idref="/preferences">
-        <label>Copy As HTML</label>
+        <label>${EXTENSION_NAME}</label>
         <traversable-class>com.cajhughes.jdev.copy.view.CopyPreferencesPanel</traversable-class>
       </page>
     </settings-ui-hook>
