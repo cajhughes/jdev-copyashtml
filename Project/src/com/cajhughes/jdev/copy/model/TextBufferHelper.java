@@ -1,8 +1,7 @@
-package chughes.jdev.copy.model;
+package com.cajhughes.jdev.copy.model;
 
 import java.io.IOException;
 import java.io.StringWriter;
-import javax.swing.undo.UndoableEdit;
 import oracle.javatools.buffer.LineMap;
 import oracle.javatools.buffer.TextBuffer;
 
@@ -20,8 +19,7 @@ public class TextBufferHelper
     private StringBuffer stringBuffer = null;
     private TextBuffer textBuffer = null;
 
-    public TextBufferHelper (final TextBuffer buffer)
-    {
+    public TextBufferHelper(final TextBuffer buffer) {
         this.textBuffer = buffer;
         this.stringBuffer = getText();
     }
@@ -31,33 +29,25 @@ public class TextBufferHelper
      * end of the specified line index.  The buffer returned does not contain
      * any trailing carriage return or line feed character.
      */
-    public StringBuffer getLine (final int line)
-    {
+    public StringBuffer getLine(final int line) {
         StringBuffer result = null;
-        if (textBuffer != null && stringBuffer != null)
-        {
+        if (textBuffer != null && stringBuffer != null) {
             LineMap lineMap = textBuffer.getLineMap();
-            if (lineMap != null)
-            {
+            if (lineMap != null) {
                 int lineCount = lineMap.getLineCount();
-                if ((line >= 0) && (line < lineCount))
-                {
+                if ((line >= 0) && (line < lineCount)) {
                     int lineStartOffset = lineMap.getLineStartOffset(line);
                     int lineEndOffset = lineMap.getLineEndOffset(line);
-                    if (lineEndOffset >= lineStartOffset)
-                    {
+                    if (lineEndOffset >= lineStartOffset) {
                         result = new StringBuffer();
-                        if (isLastLine(line))
-                        {
-                            result.append(
-                                stringBuffer.substring(lineStartOffset,
-                                                       lineEndOffset));
+                        if (isLastLine(line)) {
+                            result.append(stringBuffer.substring(lineStartOffset,
+                                                                 lineEndOffset));
                         }
-                        else if (lineEndOffset > lineStartOffset)
-                        {
-                            result.append(
-                                stringBuffer.substring(lineStartOffset,
-                                                       lineEndOffset-1));
+                        else if (lineEndOffset > lineStartOffset) {
+                            result.append(stringBuffer.substring(lineStartOffset,
+                                                                 lineEndOffset -
+                                                                 1));
                         }
                     }
                 }
@@ -73,14 +63,11 @@ public class TextBufferHelper
      * StringBuffer is populated with the same character offsets as the
      * underlying TextBuffer.
      */
-    public StringBuffer getText ()
-    {
+    public StringBuffer getText() {
         StringBuffer result = null;
-        if (textBuffer != null)
-        {
+        if (textBuffer != null) {
             StringWriter writer = new StringWriter();
-            try
-            {
+            try {
                 /*
                  * Store the current end-of-line string
                  */
@@ -100,8 +87,7 @@ public class TextBufferHelper
                  */
                 textBuffer.setEOLType(eolType);
             }
-            catch (IOException ioe)
-            {
+            catch (IOException ioe) {
                 result = null;
             }
         }
@@ -116,50 +102,40 @@ public class TextBufferHelper
      * class are zero-based, as compared to the one-based value returned
      * from getLineCount().
      */
-    public boolean isLastLine (final int index)
-    {
+    public boolean isLastLine(final int index) {
         boolean isLast = false;
-        if (textBuffer != null)
-        {
+        if (textBuffer != null) {
             LineMap lineMap = textBuffer.getLineMap();
-            if (lineMap != null)
-            {
+            if (lineMap != null) {
                 int lineCount = lineMap.getLineCount();
-                isLast = ((index+1) == lineCount);
+                isLast = ((index + 1) == lineCount);
             }
         }
         return isLast;
     }
 
-	/*
-	 * Returns an UndoableEdit that contains the undo information for the
-	 * removal of the last <i>count</i> characters (not including any
+    /*
+     * Returns an UndoableEdit that contains the undo information for the
+     * removal of the last <i>count</i> characters (not including any
      * terminating end-of-line character) from line <i>line</i>.
-	 */
-	public UndoableEdit removeTrailingChars (final int line,
-                                             final int count)
-	{
-		UndoableEdit result = null;
-		if (textBuffer != null)
-		{
-			LineMap lineMap = textBuffer.getLineMap();
-			int lineCount = lineMap.getLineCount();
-			if (line < lineCount)
-			{
-				int lineEndOffset = lineMap.getLineEndOffset(line);
-				int startPosition;
-				if (isLastLine(line))
-				{
-					startPosition = (lineEndOffset - count);
-				}
-				else
-				{
-					startPosition = (lineEndOffset - count - 1);
-				}
-				result = textBuffer.remove(startPosition, count);
-                stringBuffer.delete(startPosition, (startPosition+count+1));
-			}
-		}
-		return result;
-	}
+     */
+    public void removeTrailingChars(final int line, final int count) {
+        if (textBuffer != null) {
+            LineMap lineMap = textBuffer.getLineMap();
+            int lineCount = lineMap.getLineCount();
+            if (line < lineCount) {
+                int lineEndOffset = lineMap.getLineEndOffset(line);
+                int startPosition;
+                if (isLastLine(line)) {
+                    startPosition = (lineEndOffset - count);
+                }
+                else {
+                    startPosition = (lineEndOffset - count - 1);
+                }
+                textBuffer.remove(startPosition, count);
+                stringBuffer.delete(startPosition,
+                                    (startPosition + count + 1));
+            }
+        }
+    }
 }

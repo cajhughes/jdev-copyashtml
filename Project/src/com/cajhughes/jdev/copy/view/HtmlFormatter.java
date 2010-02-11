@@ -1,6 +1,6 @@
-package chughes.jdev.copy.view;
+package com.cajhughes.jdev.copy.view;
 
-import chughes.jdev.copy.model.CopyPreferences;
+import com.cajhughes.jdev.copy.model.CopyPreferences;
 import java.io.IOException;
 import java.io.Writer;
 import javax.swing.text.BadLocationException;
@@ -10,68 +10,37 @@ import oracle.javatools.editor.BasicDocument;
 import oracle.javatools.editor.print.DocumentToHTMLGenerator;
 import oracle.javatools.editor.print.HTMLGeneratorOptions;
 
-/*
- * @author Chris Hughes
- *
- * This class provides a method for formatting the document fragment passed
- * into the constructor in the normal way for that file type as HTML.
- *
- * It accepts a format parameter which should match one of the CopyPreferences
- * options:
- *
- * (a) CopyPreferences.CODE will produce partial HTML output, which includes
- *     the selected text wrapped in a <CODE> tag
- * (b) CopyPreferences.PRE will produce partial HTML output, which includes
- *     the selected text and coloring wrapped in a <PRE> tag
- * (c) CopyPreferences.FULL will produce complete HTML output, which adheres
- *     to the options specified in the Printing HTML preference
- */
-public class HTMLFormatter
-{
+public class HtmlFormatter {
     private String filename = null;
     private String text = null;
 
-    public HTMLFormatter (final String filename, final String text)
-    {
+    public HtmlFormatter(final String filename, final String text) {
         this.filename = filename;
         this.text = text;
     }
 
-    /*
-     * This method formats the document fragment and places the result in
-     * the specified Writer.
-     */
-    public void format (final Writer writer, final int format)
-        throws BadLocationException, IOException
-    {
+    public void format(final Writer writer, final int format) throws BadLocationException, IOException {
         BasicDocument document = new BasicDocument(filename);
         document.insertString(0, text, null);
-        if (format == CopyPreferences.CODE)
-        {
-            HTMLGenerator generator = new HTMLGenerator(document);
+        if (format == CopyPreferences.CODE) {
+            HtmlGenerator generator = new HtmlGenerator(document);
             generator.generateCode(writer);
         }
-        else if (format == CopyPreferences.PRE)
-        {
-            HTMLGenerator generator = new HTMLGenerator(document);
+        else if (format == CopyPreferences.PRE) {
+            HtmlGenerator generator = new HtmlGenerator(document);
             generator.generatePre(writer);
         }
-        else if (format == CopyPreferences.FULL)
-        {
-            DocumentToHTMLGenerator generator =
-                new DocumentToHTMLGenerator(document, null);
+        else if (format == CopyPreferences.FULL) {
+            DocumentToHTMLGenerator generator = new DocumentToHTMLGenerator(document, null);
             generator.generateHTML(writer, getOptions());
         }
     }
 
-    public static HTMLGeneratorOptions getOptions ()
-    {
+    public static HTMLGeneratorOptions getOptions() {
         HTMLGeneratorOptions result = new HTMLGeneratorOptions();
         PrintingHTMLOptions printOptions =
-            (PrintingHTMLOptions)
-                Ide.getSettings().getData(PrintingHTMLOptions.KEY_SETTINGS);
-        if (printOptions != null)
-        {
+            (PrintingHTMLOptions)Ide.getSettings().getData(PrintingHTMLOptions.KEY_SETTINGS);
+        if (printOptions != null) {
             result.setCharsetEncoding(printOptions.getCharsetEncoding());
             result.setFontFamily(printOptions.getFontFamily());
             result.setFontSize(printOptions.getFontSize());
