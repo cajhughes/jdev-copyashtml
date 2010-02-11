@@ -45,7 +45,7 @@ public final class EditorUtil {
         return result;
     }
 
-    private static CodeEditor getCodeEditor(final Context context) {
+    public static CodeEditor getCodeEditor(final Context context) {
         CodeEditor ceditor = null;
         if (context != null) {
             View view = context.getView();
@@ -56,33 +56,13 @@ public final class EditorUtil {
         return ceditor;
     }
 
-    public static String getSelectedText(final CodeEditor editor) {
-        String result = null;
-        if (editor != null) {
-            result = editor.getSelectedText();
-        }
-        if (result == null) {
-            EditorProperties properties = EditorProperties.getProperties();
-            if (properties != null) {
-                boolean copyLine = properties.getBooleanProperty(EditorProperties.PROPERTY_CUT_COPY_LINE);
-                if (copyLine) {
-                    Context context = editor.getContext();
-                    int line = getCaretLine(context);
-                    if (line != NO_CARET_LINE) {
-                        result = getCaretLine(context, line);
-                    }
-                }
-            }
-        }
-        return result;
-    }
     public static String getSelectedText(final Context context) {
         String result = null;
         if (context != null) {
             View view = context.getView();
             if (view != null && view instanceof CodeEditor) {
                 CodeEditor ceditor = (CodeEditor)view;
-                result = getSelectedText(ceditor);
+                result = ceditor.getSelectedText();
             }
         }
         if (result == null) {

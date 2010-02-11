@@ -24,7 +24,7 @@ public class CopyCommand extends Command {
     public static int actionId() {
         Integer cmdId = Ide.findOrCreateCmdID(EXTENSION_ID);
         if (cmdId == null) {
-            throw new IllegalStateException("Action " + EXTENSION_ID + " not found.");
+            throw new IllegalStateException("Action, " + EXTENSION_ID + ", not found.");
         }
         else {
             return cmdId.intValue();
@@ -52,7 +52,7 @@ public class CopyCommand extends Command {
             try {
                 final HtmlFormatter formatter =
                     new HtmlFormatter(node.getShortLabel(), EditorUtil.getSelectedText(context));
-                formatter.format(writer, CopySettings.getCurrent(EXTENSION_ID).getCopyFormat());
+                formatter.format(writer, CopySettings.getCurrent().getCopyFormat());
                 ClipboardUtil.setContents(writer);
             }
             catch (Exception e) {
