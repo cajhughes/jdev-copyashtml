@@ -2,9 +2,11 @@
 <project name="Project" default="all" basedir=".">
   <property file="build.properties"/>
   <path id="library.JDeveloper.Extension.SDK">
-    <pathelement location="${oracle.home}/ide/lib/ide.jar"/>
+    <pathelement location="${oracle.home}/ide/extensions/oracle.ide.jar"/>
+    <pathelement location="${oracle.home}/ide/extensions/oracle.ide.ceditor.jar"/>
+    <pathelement location="${oracle.home}/ide/lib/idert.jar"/>
     <pathelement location="${oracle.home}/ide/lib/javatools.jar"/>
-    <pathelement location="${oracle.home}/ide/lib/javax-ide.jar"/>
+    <pathelement location="${oracle.home}/modules/oracle.javatools_11.1.1/javatools-nodeps.jar"/>
   </path>
   <path id="classpath">
     <path refid="library.JDeveloper.Extension.SDK"/>
@@ -41,7 +43,7 @@
   </target>
   <target name="jar" description="Construct JAR file" depends="compile,copyJar">
     <mkdir dir="${dist.dir}"/>
-    <jar destfile="${dist.dir}/chughes.jdev.CopyAsHTML.jar" basedir="${build.dir}"/>
+    <jar destfile="${dist.dir}/com.cajhughes.jdev.CopyAsHtml.jar" basedir="${build.dir}"/>
   </target>
   <target name="copyZip" description="Copy files for inclusion in ZIP" depends="init">
     <patternset id="copyZip.patterns">
