@@ -7,6 +7,7 @@ public final class CopyPreferences implements Copyable {
     public static final int CODE = 0;
     public static final int PRE = 1;
     public static final int FULL = 2;
+    public static final int CODEMARKUP = 3;
 
     private int copyFormat;
 

@@ -34,6 +34,10 @@ public class HtmlFormatter {
             DocumentToHTMLGenerator generator = new DocumentToHTMLGenerator(document, null);
             generator.generateHTML(writer, getOptions());
         }
+        else if (format == CopyPreferences.CODEMARKUP) {
+            HtmlGenerator generator = new HtmlGenerator(document);
+            generator.generateCodeMarkup(writer);
+        }
     }
 
     public static HTMLGeneratorOptions getOptions() {
