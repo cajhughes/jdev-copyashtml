@@ -19,6 +19,7 @@ public final class CopyPreferencesPanel extends DefaultTraversablePanel {
     private final JLabel heading = new JLabel();
     private final JRadioButton codeSnippet = new JRadioButton();
     private final JRadioButton preSnippet = new JRadioButton();
+    private final JRadioButton codeMarkupSnippet = new JRadioButton();
     private final JRadioButton fullSnippet = new JRadioButton();
 
     public CopyPreferencesPanel() {
@@ -31,6 +32,7 @@ public final class CopyPreferencesPanel extends DefaultTraversablePanel {
         ResourceUtils.resLabel(heading, heading, CopyResourceUtil.getString("CopyPanelHeading"));
         ResourceUtils.resButton(codeSnippet, CopyResourceUtil.getString("CopyPanelCodeOption"));
         ResourceUtils.resButton(preSnippet, CopyResourceUtil.getString("CopyPanelPreOption"));
+        ResourceUtils.resButton(codeMarkupSnippet, CopyResourceUtil.getString("CopyPanelCodeMarkupOption"));
         ResourceUtils.resButton(fullSnippet, CopyResourceUtil.getString("CopyPanelFullOption"));
     }
 
@@ -54,6 +56,8 @@ public final class CopyPreferencesPanel extends DefaultTraversablePanel {
         c.gridy++;
         add(preSnippet, c);
         c.gridy++;
+        add(codeMarkupSnippet, c);
+        c.gridy++;
         add(fullSnippet, c);
         c.gridy++;
         c.weighty = 1.0d;
@@ -64,6 +68,7 @@ public final class CopyPreferencesPanel extends DefaultTraversablePanel {
         ButtonGroup group = new ButtonGroup();
         group.add(codeSnippet);
         group.add(preSnippet);
+        group.add(codeMarkupSnippet);
         group.add(fullSnippet);
     }
 
@@ -72,6 +77,7 @@ public final class CopyPreferencesPanel extends DefaultTraversablePanel {
         if (prefs != null) {
             codeSnippet.setSelected(prefs.getCopyFormat() == CopyPreferences.CODE);
             preSnippet.setSelected(prefs.getCopyFormat() == CopyPreferences.PRE);
+            codeMarkupSnippet.setSelected(prefs.getCopyFormat() == CopyPreferences.CODEMARKUP);
             fullSnippet.setSelected(prefs.getCopyFormat() == CopyPreferences.FULL);
         }
     }
@@ -84,6 +90,9 @@ public final class CopyPreferencesPanel extends DefaultTraversablePanel {
             }
             else if (preSnippet.isSelected()) {
                 prefs.setCopyFormat(CopyPreferences.PRE);
+            }
+            else if (codeMarkupSnippet.isSelected()) {
+                prefs.setCopyFormat(CopyPreferences.CODEMARKUP);
             }
             else if (fullSnippet.isSelected()) {
                 prefs.setCopyFormat(CopyPreferences.FULL);

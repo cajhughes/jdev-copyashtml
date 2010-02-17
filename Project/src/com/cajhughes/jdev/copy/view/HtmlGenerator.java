@@ -64,6 +64,31 @@ public class HtmlGenerator {
         writer.write("</code>");
     }
 
+    public void generateCodeMarkup(final Writer writer) throws IOException {
+        TextBuffer textBuffer = document.getTextBuffer();
+        DocumentRenderer renderer = document.getDocumentRenderer();
+        LineMap lineMap = textBuffer.getLineMap();
+        int lineCount = lineMap.getLineCount();
+        StyledFragmentsList fragmentList = renderer.renderLines(0, lineCount-1);
+        int numFragments = fragmentList.size();
+        writer.write("<pre>\n<code>\n");
+        int columnCount = 0;
+        for (int i = 0; i < numFragments; i++) {
+            StyledFragment fragment = fragmentList.get(i);
+            if (fragment != null) {
+                int startOffset = fragment.startOffset;
+                int endOffset = fragment.endOffset;
+                String styleName = fragment.styleName;
+                writeSpanStart(writer, styleName);
+                for (int j = startOffset; j < endOffset; j++) {
+                    columnCount = writeChar(writer, textBuffer.getChar(j), columnCount, false);
+                }
+                writeSpanEnd(writer, styleName);
+            }
+        }
+        writer.write("\n</code>\n</pre>");
+    }
+
     public void generatePre(final Writer writer) throws IOException {
         TextBuffer textBuffer = document.getTextBuffer();
         DocumentRenderer renderer = document.getDocumentRenderer();
@@ -159,7 +184,7 @@ public class HtmlGenerator {
         if (registry != null) {
             BaseStyle style = getNonPlainStyle(styleName);
             if (style != null) {
-                writer.write("<font color\"");
+                writer.write("<font color=\"");
                 writeColor(writer, style.getForegroundColor());
                 writer.write("\">");
                 if ((style.getFontStyle() & Font.BOLD) > 0) {
@@ -183,6 +208,38 @@ public class HtmlGenerator {
                     writer.write("</em>");
                 }
                 writer.write("</font>");
+            }
+        }
+    }
+
+    protected void writeSpanStart(final Writer writer, final String styleName) throws IOException {
+        if (registry != null) {
+            BaseStyle style = getNonPlainStyle(styleName);
+            if (style != null) {
+                writer.write("<span style=\"color:");
+                writeColor(writer, style.getForegroundColor());
+                writer.write("\">");
+                if ((style.getFontStyle() & Font.BOLD) > 0) {
+                    writer.write("<strong>");
+                }
+                if ((style.getFontStyle() & Font.ITALIC) > 0) {
+                    writer.write("<em>");
+                }
+            }
+        }
+    }
+
+    protected void writeSpanEnd(final Writer writer, final String styleName) throws IOException {
+        if (registry != null) {
+            BaseStyle style = getNonPlainStyle(styleName);
+            if (style != null) {
+                if ((style.getFontStyle() & Font.BOLD) > 0) {
+                    writer.write("</strong>");
+                }
+                if ((style.getFontStyle() & Font.ITALIC) > 0) {
+                    writer.write("</em>");
+                }
+                writer.write("</span>");
             }
         }
     }
