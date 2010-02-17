@@ -1,0 +1,14 @@
+#labels Featured,Phase-Deploy
+# Installation Guide
+
+= Installation =
+
+The "Copy As HTML" extension to Oracle's JDeveloper IDE is installed in the standard way, which involves the following steps:
+
+  # Launch [http://www.oracle.com/technology/jdev Oracle JDeveloper]
+  # Select the Help -> Check for Updates... menu option
+  # When selecting the Source location, check "Open Source and Partners Extensions"
+  # In the resulting list, check the Copy As HTML option
+  # Finish, and follow any instructions given by Oracle JDeveloper
+
+http://dl.dropbox.com/u/191565/jdev/copy-install.png
