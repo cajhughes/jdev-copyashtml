@@ -19,6 +19,9 @@
           <command-class>com.cajhughes.jdev.copy.CopyCommand</command-class>
         </action>
       </actions>
+      <addins>
+        <addin>com.cajhughes.jdev.copy.CopyAddin</addin>
+      </addins>
       <context-menu-listeners>
         <site idref="editor">
           <listener-class>com.cajhughes.jdev.copy.view.CopyMenuListener</listener-class>
@@ -41,7 +44,6 @@
           </menu>
         </menubar>
       </menus>
-      <!-- Comment out toolbar, while we figure out Listener implementation to update correctly
       <toolbars>
         <toolbar id="javax.ide.view.MAIN_WINDOW_TOOLBAR_ID">
           <section id="javax.ide.COPY_PASTE_SECTION_ID">
@@ -49,7 +51,6 @@
           </section>
         </toolbar>
       </toolbars>
-      -->
     </menu-hook>
     <feature-hook>
       <description>${DESCRIPTION}</description>
