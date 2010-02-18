@@ -13,7 +13,7 @@ public final class CopyPreferences implements Copyable {
 
     public CopyPreferences() {
         super();
-        copyFormat = CODE;
+        copyFormat = CODEMARKUP;
     }
 
     public Object copyTo(final Object target) {
