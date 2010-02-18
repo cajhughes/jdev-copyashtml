@@ -1,4 +1,4 @@
-<extension id="com.cajhughes.jdev.CopyAsHtml" version="11.1.4" esdk-version="1.0"
+<extension id="com.cajhughes.jdev.CopyAsHtml" version="11.1.5" esdk-version="1.0"
            rsbundle-class="com.cajhughes.jdev.copy.Resource" xmlns="http://jcp.org/jsr/198/extension-manifest">
   <name>${EXTENSION_NAME}</name>
   <owner>${OWNER_NAME}</owner>
@@ -14,6 +14,7 @@
             <property name="Name">${EXTENSION_NAME}</property>
             <property name="SmallIcon">${ICON}</property>
             <property name="LongDescription">${DESCRIPTION}</property>
+            <property name="Category">Edit</property>
           </properties>
           <controller-class>com.cajhughes.jdev.copy.controller.CopyController</controller-class>
           <command-class>com.cajhughes.jdev.copy.CopyCommand</command-class>
