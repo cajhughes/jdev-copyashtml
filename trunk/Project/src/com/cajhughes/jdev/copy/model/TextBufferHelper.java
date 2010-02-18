@@ -58,34 +58,15 @@ public class TextBufferHelper
 
     /*
      * Returns a StringBuffer that matches the contents of the TextBuffer.
-     *
-     * Note that we explicitly call "setEOLType" to ensure that the
-     * StringBuffer is populated with the same character offsets as the
-     * underlying TextBuffer.
      */
     public StringBuffer getText() {
         StringBuffer result = null;
         if (textBuffer != null) {
             StringWriter writer = new StringWriter();
             try {
-                /*
-                 * Store the current end-of-line string
-                 */
-                String eolType = textBuffer.getEOLType();
-
-                /*
-                 * Explicitly set the end-of-line string while we write the
-                 * contents of the TextBuffer into our writer
-                 */
-                textBuffer.setEOLType(TextBuffer.EOL_LF);
                 textBuffer.write(writer, false);
                 writer.flush();
                 result = writer.getBuffer();
-
-                /*
-                 * Restore the end-of-line string
-                 */
-                textBuffer.setEOLType(eolType);
             }
             catch (IOException ioe) {
                 result = null;
