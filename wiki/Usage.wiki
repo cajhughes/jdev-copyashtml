@@ -6,9 +6,4 @@ Following successful installation, and re-start of JDeveloper, the extension can
   * Selecting Edit -> Copy As HTML in the top-level menu
   * Clicking the button in the top-level toolbar
   * Selecting the context menu (right-click or CTRL-click) within the Code Editor
-
-http://dl.dropbox.com/u/191565/jdev/copy-main-menu.png
-
-http://dl.dropbox.com/u/191565/jdev/copy-toolbar.png
-
-http://dl.dropbox.com/u/191565/jdev/copy-context-menu.png
+  * Using the keyboard shortcut (initially assigned to Ctrl-H)
