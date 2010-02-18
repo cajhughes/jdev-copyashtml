@@ -1,0 +1,15 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<update-bundle version="1.0"
+  xmlns="http://xmlns.oracle.com/jdeveloper/updatebundle"
+  xmlns:u="http://xmlns.oracle.com/jdeveloper/update">
+  <u:update id="com.cajhughes.jdev.CopyAsHtml">
+    <u:name>Copy As HTML</u:name>
+    <u:version>11.1.4</u:version>
+    <u:author>Chris Hughes</u:author>
+    <u:author-url>http://code.google.com/p/jdev-copyashtml/</u:author-url>
+    <u:description>Provides options to format the currently selected text as HTML, and place the result in the System clipboard</u:description>
+    <u:requirements>
+      <u:requires-extension id="oracle.ide" minVersion="11.1.1"/>
+    </u:requirements>
+  </u:update>
+</update-bundle>
