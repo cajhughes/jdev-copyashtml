@@ -11,13 +11,14 @@ import oracle.javatools.editor.BasicDocument;
 import oracle.javatools.editor.EditorProperties;
 import oracle.javatools.editor.Utilities;
 import oracle.javatools.editor.language.BaseStyle;
+import oracle.javatools.editor.language.BuiltInStyles;
 import oracle.javatools.editor.language.DocumentRenderer;
 import oracle.javatools.editor.language.StyleRegistry;
 import oracle.javatools.editor.language.StyledFragment;
 import oracle.javatools.editor.language.StyledFragmentsList;
 
 public class HtmlGenerator {
-    protected static final String DEFAULT_STYLE = "base-plain_style";
+    protected static final String DEFAULT_STYLE = BuiltInStyles.BUILTIN_PLAIN_STYLE;
 
     private BasicDocument document = null;
     private StyleRegistry registry = null;
