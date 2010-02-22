@@ -2,7 +2,6 @@ package com.cajhughes.jdev.copy.view;
 
 import com.cajhughes.jdev.copy.model.CopyPreferences;
 import com.cajhughes.jdev.copy.view.resource.CopyResourceUtil;
-
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;

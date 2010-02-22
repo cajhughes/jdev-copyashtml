@@ -18,8 +18,6 @@ import oracle.javatools.editor.language.StyledFragment;
 import oracle.javatools.editor.language.StyledFragmentsList;
 
 public class HtmlGenerator {
-    protected static final String DEFAULT_STYLE = BuiltInStyles.BUILTIN_PLAIN_STYLE;
-
     private BasicDocument document = null;
     private StyleRegistry registry = null;
     private int tabSize = 0;
@@ -117,7 +115,7 @@ public class HtmlGenerator {
 
     protected BaseStyle getNonPlainStyle(final String styleName) {
         BaseStyle baseStyle = null;
-        if (styleName != null && !styleName.equals(DEFAULT_STYLE)) {
+        if (styleName != null && !styleName.equals(BuiltInStyles.BUILTIN_PLAIN_STYLE)) {
             baseStyle = registry.lookupStyle(styleName);
         }
         return baseStyle;
