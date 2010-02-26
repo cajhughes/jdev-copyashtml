@@ -51,7 +51,7 @@ public class CopyCommand extends Command {
             final StringWriter writer = new StringWriter();
             try {
                 final HtmlFormatter formatter =
-                    new HtmlFormatter(node.getShortLabel(), EditorUtil.getSelectedText(context));
+                    new HtmlFormatter(getFilename(node), EditorUtil.getSelectedText(context));
                 formatter.format(writer, CopySettings.getCurrent().getCopyFormat());
                 ClipboardUtil.setContents(writer);
             }
@@ -63,5 +63,21 @@ public class CopyCommand extends Command {
             }
         }
         return OK;
+    }
+
+    private String getFilename(final TextNode node) {
+        String filename = node.getShortLabel();
+        try {
+            if (Class.forName("oracle.ide.db.model.DBObjectNode").isInstance(node)) {
+                int index = filename.indexOf(".");
+                if (index == -1) {
+                    filename = filename + ".sql";
+                }
+            }
+        }
+        catch (ClassNotFoundException cnfe) {
+            filename = node.getShortLabel();
+        }
+        return filename;
     }
 }
