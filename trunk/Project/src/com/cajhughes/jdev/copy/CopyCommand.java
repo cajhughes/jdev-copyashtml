@@ -16,6 +16,7 @@ import oracle.ide.model.TextNode;
 public class CopyCommand extends Command {
     public static final String EXTENSION_ID = "com.cajhughes.jdev.CopyAsHtml";
     private static final String EXTENSION_NAME = CopyResourceUtil.getString("EXTENSION_NAME");
+    private static final String SQL = ".sql";
 
     public CopyCommand() {
         super(actionId(), NO_CHANGE);
@@ -69,9 +70,8 @@ public class CopyCommand extends Command {
         String filename = node.getShortLabel();
         try {
             if (Class.forName("oracle.ide.db.model.DBObjectNode").isInstance(node)) {
-                int index = filename.indexOf(".");
-                if (index == -1) {
-                    filename = filename + ".sql";
+                if (!filename.endsWith(SQL)) {
+                    filename = filename + SQL;
                 }
             }
         }
