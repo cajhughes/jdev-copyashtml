@@ -14,8 +14,7 @@ import oracle.javatools.buffer.TextBuffer;
  * performed via methods separate from this class, otherwise incorrect results
  * may be returned for the <i>getLine</i> method.
  */
-public class TextBufferHelper
-{
+public class TextBufferHelper {
     private StringBuffer stringBuffer = null;
     private TextBuffer textBuffer = null;
 
