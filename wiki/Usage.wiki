@@ -1,7 +1,7 @@
 #labels Featured
 # How to Use the extension
 
-Following successful installation, and re-start of JDeveloper, the extension can be invoked via:
+Following successful installation, and re-start of JDeveloper and/or SQL Developer, the extension can be invoked via:
 
   * Selecting Edit -> Copy As HTML in the top-level menu
   * Clicking the button in the top-level toolbar
