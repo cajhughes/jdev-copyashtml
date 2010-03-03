@@ -10,6 +10,13 @@ import oracle.javatools.editor.BasicDocument;
 import oracle.javatools.editor.print.DocumentToHTMLGenerator;
 import oracle.javatools.editor.print.HTMLGeneratorOptions;
 
+/**
+ * This class handles the choice of which output format to generate, based on
+ * the current preference, and calls the generator to write the HTML output
+ * into the stream.
+ *
+ * @author Chris Hughes
+ */
 public class HtmlFormatter {
     private String filename = null;
     private String text = null;

@@ -5,14 +5,14 @@ import java.io.StringWriter;
 import oracle.javatools.buffer.LineMap;
 import oracle.javatools.buffer.TextBuffer;
 
-/*
- * @author Chris Hughes
- *
+/**
  * This class provides helper methods for handling TextBuffer content.
  *
  * No manipulation of the TextBuffer passed into the constructor should be
  * performed via methods separate from this class, otherwise incorrect results
  * may be returned for the <i>getLine</i> method.
+ *
+ * @author Chris Hughes
  */
 public class TextBufferHelper {
     private StringBuffer stringBuffer = null;
@@ -92,30 +92,5 @@ public class TextBufferHelper {
             }
         }
         return isLast;
-    }
-
-    /*
-     * Returns an UndoableEdit that contains the undo information for the
-     * removal of the last <i>count</i> characters (not including any
-     * terminating end-of-line character) from line <i>line</i>.
-     */
-    public void removeTrailingChars(final int line, final int count) {
-        if (textBuffer != null) {
-            LineMap lineMap = textBuffer.getLineMap();
-            int lineCount = lineMap.getLineCount();
-            if (line < lineCount) {
-                int lineEndOffset = lineMap.getLineEndOffset(line);
-                int startPosition;
-                if (isLastLine(line)) {
-                    startPosition = (lineEndOffset - count);
-                }
-                else {
-                    startPosition = (lineEndOffset - count - 1);
-                }
-                textBuffer.remove(startPosition, count);
-                stringBuffer.delete(startPosition,
-                                    (startPosition + count + 1));
-            }
-        }
     }
 }
