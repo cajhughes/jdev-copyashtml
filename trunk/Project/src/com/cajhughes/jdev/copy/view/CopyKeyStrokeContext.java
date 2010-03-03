@@ -10,6 +10,13 @@ import oracle.ide.keyboard.KeyStrokeContext;
 import oracle.ide.keyboard.KeyStrokeMap;
 import oracle.ide.keyboard.KeyStrokes;
 
+/**
+ * This class implements the KeyStrokeContext interface, and exists to define
+ * the scope in which the shortcut key defined for the CopyAsHtml action
+ * should act.
+ *
+ * @author Chris Hughes
+ */
 public final class CopyKeyStrokeContext implements KeyStrokeContext {
     private final Set<IdeAction> actions = new HashSet<IdeAction>();
     private final KeyStrokeMap keyStrokeMap = new KeyStrokeMap();
@@ -19,10 +26,12 @@ public final class CopyKeyStrokeContext implements KeyStrokeContext {
         keyStrokeMap.put(keyStrokes, action.getCommandId());
     }
 
-    public String getName() {
-        return CopyResourceUtil.getString("EXTENSION_NAME");
+    @Override
+    public String getAcceleratorFile() {
+        return null;
     }
 
+    @Override
     public Set getAllActions(final boolean global) {
         if (global) {
             return actions;
@@ -32,6 +41,17 @@ public final class CopyKeyStrokeContext implements KeyStrokeContext {
         }
     }
 
+    @Override
+    public List getAllPresets() {
+        return Collections.emptyList();
+    }
+
+    @Override
+    public String getName() {
+        return CopyResourceUtil.getString("EXTENSION_NAME");
+    }
+
+    @Override
     public KeyStrokeMap getPresetKeyStrokeMap(final Object object, final boolean global) {
         if (global) {
             return keyStrokeMap;
@@ -39,13 +59,5 @@ public final class CopyKeyStrokeContext implements KeyStrokeContext {
         else {
             return null;
         }
-    }
-
-    public List getAllPresets() {
-        return Collections.emptyList();
-    }
-
-    public String getAcceleratorFile() {
-        return null;
     }
 }

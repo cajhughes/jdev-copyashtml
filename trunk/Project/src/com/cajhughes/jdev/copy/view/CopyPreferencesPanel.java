@@ -14,6 +14,13 @@ import oracle.ide.panels.TraversableContext;
 import oracle.ide.panels.TraversalException;
 import oracle.ide.util.ResourceUtils;
 
+/**
+ * This class extends the DefaultTraversablePanel, so that the JPanel for the
+ * preferences associated with the CopyAsHtml action can be traversed within
+ * the Preferences dialog.
+ *
+ * @author Chris Hughes
+ */
 public final class CopyPreferencesPanel extends DefaultTraversablePanel {
     private final JLabel heading = new JLabel();
     private final JRadioButton codeSnippet = new JRadioButton();
@@ -71,6 +78,7 @@ public final class CopyPreferencesPanel extends DefaultTraversablePanel {
         group.add(fullSnippet);
     }
 
+    @Override
     public void onEntry(final TraversableContext context) {
         CopyPreferences prefs = (CopyPreferences)context.find(CopyPreferences.KEY);
         if (prefs != null) {
@@ -81,6 +89,7 @@ public final class CopyPreferencesPanel extends DefaultTraversablePanel {
         }
     }
 
+    @Override
     public void onExit(final TraversableContext context) throws TraversalException {
         CopyPreferences prefs = (CopyPreferences)context.find(CopyPreferences.KEY);
         if (prefs != null) {

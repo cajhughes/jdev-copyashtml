@@ -13,6 +13,12 @@ import oracle.ide.log.LogManager;
 import oracle.ide.model.Node;
 import oracle.ide.model.TextNode;
 
+/**
+ * This class extends the Command class, and provides the core implementation
+ * of the CopyAsHtml action.
+ *
+ * @author Chris Hughes
+ */
 public class CopyCommand extends Command {
     public static final String EXTENSION_ID = "com.cajhughes.jdev.CopyAsHtml";
     private static final String EXTENSION_NAME = CopyResourceUtil.getString("EXTENSION_NAME");
@@ -32,18 +38,7 @@ public class CopyCommand extends Command {
         }
     }
 
-    public Node[] getAffectedNodes() {
-        return null;
-    }
-
-    public String getName() {
-        return EXTENSION_NAME;
-    }
-
-    public int getType() {
-        return NO_CHANGE;
-    }
-
+    @Override
     public int doit() throws Exception {
         Context context = getContext();
         if (context != null) {
@@ -64,6 +59,21 @@ public class CopyCommand extends Command {
             }
         }
         return OK;
+    }
+
+    @Override
+    public Node[] getAffectedNodes() {
+        return null;
+    }
+
+    @Override
+    public String getName() {
+        return EXTENSION_NAME;
+    }
+
+    @Override
+    public int getType() {
+        return NO_CHANGE;
     }
 
     private String getFilename(final TextNode node) {

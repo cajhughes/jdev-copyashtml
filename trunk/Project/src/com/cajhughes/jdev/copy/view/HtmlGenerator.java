@@ -17,6 +17,12 @@ import oracle.javatools.editor.language.StyleRegistry;
 import oracle.javatools.editor.language.StyledFragment;
 import oracle.javatools.editor.language.StyledFragmentsList;
 
+/**
+ * This class generates the HTML equivalent for the snippet of text selected.
+ * It supports all generation types currently defined.
+ *
+ * @author Chris Hughes
+ */
 public class HtmlGenerator {
     private BasicDocument document = null;
     private StyleRegistry registry = null;

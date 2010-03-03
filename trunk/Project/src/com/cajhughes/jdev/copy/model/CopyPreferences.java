@@ -2,6 +2,12 @@ package com.cajhughes.jdev.copy.model;
 
 import oracle.javatools.util.Copyable;
 
+/**
+ * This class implements the Copyable interface, so that the Preferences
+ * dialog can operate on a copy of the extension data.
+ *
+ * @author Chris Hughes
+ */
 public final class CopyPreferences implements Copyable {
     public static final String KEY = "CopyPreferences";
     public static final int CODE = 0;
@@ -16,6 +22,7 @@ public final class CopyPreferences implements Copyable {
         copyFormat = CODEMARKUP;
     }
 
+    @Override
     public Object copyTo(final Object target) {
         final CopyPreferences copy = (target != null) ? (CopyPreferences)target : new CopyPreferences();
         copyToImpl(copy);
