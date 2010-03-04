@@ -1,5 +1,5 @@
 <extension id="com.cajhughes.jdev.CopyAsHtml"
-           version="11.2.0"
+           version="11.2.1"
            esdk-version="1.0"
            rsbundle-class="com.cajhughes.jdev.copy.Resource"
            xmlns="http://jcp.org/jsr/198/extension-manifest">
