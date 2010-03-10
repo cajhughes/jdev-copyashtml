@@ -3,9 +3,14 @@ package com.cajhughes.jdev.util;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
-
 import java.io.StringWriter;
 
+/**
+ * This class provides static helper methods for accessing and interacting
+ * with the system clipboard.
+ *
+ * @author Chris Hughes
+ */
 public final class ClipboardUtil {
     public static boolean canBeAccessed() {
         boolean access = false;

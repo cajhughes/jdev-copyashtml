@@ -39,6 +39,21 @@ public class CopyCommand extends Command {
     }
 
     @Override
+    public Node[] getAffectedNodes() {
+        return null;
+    }
+
+    @Override
+    public String getName() {
+        return EXTENSION_NAME;
+    }
+
+    @Override
+    public int getType() {
+        return NO_CHANGE;
+    }
+
+    @Override
     public int doit() throws Exception {
         Context context = getContext();
         if (context != null) {
@@ -59,21 +74,6 @@ public class CopyCommand extends Command {
             }
         }
         return OK;
-    }
-
-    @Override
-    public Node[] getAffectedNodes() {
-        return null;
-    }
-
-    @Override
-    public String getName() {
-        return EXTENSION_NAME;
-    }
-
-    @Override
-    public int getType() {
-        return NO_CHANGE;
     }
 
     private String getFilename(final TextNode node) {
