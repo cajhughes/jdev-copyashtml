@@ -8,6 +8,12 @@ import oracle.ide.view.View;
 import oracle.javatools.buffer.TextBuffer;
 import oracle.javatools.editor.EditorProperties;
 
+/**
+ * This class provides static helper methods for interacting with the
+ * JDeveloper Editors.
+ *
+ * @author Chris Hughes
+ */
 public final class EditorUtil {
     private static final int NO_CARET_LINE = -1;
 
