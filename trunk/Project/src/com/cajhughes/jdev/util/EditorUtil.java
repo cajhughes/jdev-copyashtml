@@ -3,9 +3,11 @@ package com.cajhughes.jdev.util;
 import com.cajhughes.jdev.copy.model.TextBufferHelper;
 import oracle.ide.Context;
 import oracle.ide.ceditor.CodeEditor;
+import oracle.ide.log.LogManager;
 import oracle.ide.model.TextNode;
 import oracle.ide.view.View;
 import oracle.javatools.buffer.TextBuffer;
+import oracle.javatools.editor.BasicEditorPane;
 import oracle.javatools.editor.EditorProperties;
 
 /**
@@ -66,9 +68,24 @@ public final class EditorUtil {
         String result = null;
         if (context != null) {
             View view = context.getView();
-            if (view != null && view instanceof CodeEditor) {
-                CodeEditor ceditor = (CodeEditor)view;
-                result = ceditor.getSelectedText();
+            if (view != null) {
+                if (view instanceof CodeEditor) {
+                    result = ((CodeEditor)view).getSelectedText();
+                }
+                else {
+                    try {
+                        if (Class.forName("oracle.dbtools.worksheet.editor.Worksheet").isInstance(view)) {
+                            BasicEditorPane pane =
+                                ((oracle.dbtools.worksheet.editor.Worksheet)view).getFocusedEditorPane();
+                            if (pane != null) {
+                                result = pane.getSelectedText();
+                            }
+                        }
+                    }
+                    catch (ClassNotFoundException cnfe) {
+                        LogManager.getLogManager().getMsgPage().log("CopyAsHtml: " + cnfe.getMessage() + "\n");
+                    }
+                }
             }
         }
         if (result == null) {
