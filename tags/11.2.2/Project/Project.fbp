@@ -1,0 +1,7 @@
+<Project projectName="Copy As HTML">
+  <Jar>classes</Jar>
+  <SrcDir>src</SrcDir>
+  <SuppressionFilter>
+    <LastVersion value="-1" relOp="NEQ"/>
+  </SuppressionFilter>
+</Project>
