@@ -45,6 +45,10 @@ public class HtmlFormatter {
             HtmlGenerator generator = new HtmlGenerator(document);
             generator.generateCodeMarkup(writer);
         }
+        else if (format == CopyPreferences.RTF) {
+            RtfGenerator generator = new RtfGenerator(document);
+            generator.generateRTF(writer);
+        }
     }
 
     public static HTMLGeneratorOptions getOptions() {

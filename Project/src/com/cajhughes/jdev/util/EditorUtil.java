@@ -3,7 +3,6 @@ package com.cajhughes.jdev.util;
 import com.cajhughes.jdev.copy.model.TextBufferHelper;
 import oracle.ide.Context;
 import oracle.ide.ceditor.CodeEditor;
-import oracle.ide.log.LogManager;
 import oracle.ide.model.TextNode;
 import oracle.ide.view.View;
 import oracle.javatools.buffer.TextBuffer;
@@ -83,7 +82,8 @@ public final class EditorUtil {
                         }
                     }
                     catch (ClassNotFoundException cnfe) {
-                        LogManager.getLogManager().getMsgPage().log("CopyAsHtml: " + cnfe.getMessage() + "\n");
+                        // Worksheet class cannot be located, which will occur in JDeveloper Java edition
+                        result = null;
                     }
                 }
             }
