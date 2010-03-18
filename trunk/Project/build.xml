@@ -32,7 +32,7 @@
   </target>
   <target name="copyJar" description="Copy files for inclusion in JAR" depends="init">
     <patternset id="copyJar.patterns">
-      <include name="**/*.gif"/>
+      <include name="**/*.png"/>
       <include name="**/*.properties"/>
       <include name="**/*.xml"/>
     </patternset>
