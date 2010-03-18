@@ -1,0 +1,64 @@
+<extension id="com.cajhughes.jdev.CopyAsHtml"
+           version="11.2.2"
+           esdk-version="1.0"
+           rsbundle-class="com.cajhughes.jdev.copy.Resource"
+           xmlns="http://jcp.org/jsr/198/extension-manifest">
+  <name>${EXTENSION_NAME}</name>
+  <owner>${OWNER_NAME}</owner>
+  <dependencies>
+    <import>oracle.ide</import>
+    <import>oracle.ide.ceditor</import>
+  </dependencies>
+  <hooks>
+    <jdeveloper-hook xmlns="http://xmlns.oracle.com/jdeveloper/1013/extension">
+      <actions>
+        <action id="com.cajhughes.jdev.CopyAsHtml">
+          <properties>
+            <property name="Name">${EXTENSION_NAME}</property>
+            <property name="SmallIcon">${ICON}</property>
+            <property name="LongDescription">${DESCRIPTION}</property>
+            <property name="Category">Edit</property>
+          </properties>
+          <controller-class>com.cajhughes.jdev.copy.controller.CopyController</controller-class>
+          <command-class>com.cajhughes.jdev.copy.CopyCommand</command-class>
+        </action>
+      </actions>
+      <addins>
+        <addin>com.cajhughes.jdev.copy.CopyAddin</addin>
+      </addins>
+      <context-menu-listeners>
+        <site idref="editor">
+          <listener-class>com.cajhughes.jdev.copy.view.CopyMenuListener</listener-class>
+        </site>
+      </context-menu-listeners>
+    </jdeveloper-hook>
+    <settings-ui-hook xmlns="http://xmlns.oracle.com/ide/extension">
+      <page id="com.cajhughes.jdev.CopyAsHtml" parent-idref="/preferences">
+        <label>${EXTENSION_NAME}</label>
+        <traversable-class>com.cajhughes.jdev.copy.view.CopyPreferencesPanel</traversable-class>
+      </page>
+    </settings-ui-hook>
+    <menu-hook>
+      <menus>
+        <menubar id="javax.ide.view.MAIN_WINDOW_MENUBAR_ID">
+          <menu id="javax.ide.EDIT_MENU_ID">
+            <section id="javax.ide.COPY_PASTE_SECTION_ID">
+              <item action-ref="com.cajhughes.jdev.CopyAsHtml"/>
+            </section>
+          </menu>
+        </menubar>
+      </menus>
+      <toolbars>
+        <toolbar id="javax.ide.view.MAIN_WINDOW_TOOLBAR_ID">
+          <section id="javax.ide.COPY_PASTE_SECTION_ID">
+            <item action-ref="com.cajhughes.jdev.CopyAsHtml"/>
+          </section>
+        </toolbar>
+      </toolbars>
+    </menu-hook>
+    <feature-hook>
+      <description>${DESCRIPTION}</description>
+      <optional>true</optional>
+    </feature-hook>
+  </hooks>
+</extension>
