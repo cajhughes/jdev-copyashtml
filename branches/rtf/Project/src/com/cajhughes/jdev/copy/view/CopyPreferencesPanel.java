@@ -27,6 +27,7 @@ public final class CopyPreferencesPanel extends DefaultTraversablePanel {
     private final JRadioButton preSnippet = new JRadioButton();
     private final JRadioButton codeMarkupSnippet = new JRadioButton();
     private final JRadioButton fullSnippet = new JRadioButton();
+    private final JRadioButton rtfSnippet = new JRadioButton();
 
     public CopyPreferencesPanel() {
         initialiseResources();
@@ -40,6 +41,7 @@ public final class CopyPreferencesPanel extends DefaultTraversablePanel {
         ResourceUtils.resButton(preSnippet, CopyResourceUtil.getString("CopyPanelPreOption"));
         ResourceUtils.resButton(codeMarkupSnippet, CopyResourceUtil.getString("CopyPanelCodeMarkupOption"));
         ResourceUtils.resButton(fullSnippet, CopyResourceUtil.getString("CopyPanelFullOption"));
+        ResourceUtils.resButton(rtfSnippet, CopyResourceUtil.getString("CopyPanelRTFOption"));
     }
 
     protected void layoutControls() {
@@ -66,6 +68,8 @@ public final class CopyPreferencesPanel extends DefaultTraversablePanel {
         c.gridy++;
         add(fullSnippet, c);
         c.gridy++;
+        add(rtfSnippet, c);
+       c.gridy++;
         c.weighty = 1.0d;
         add(new JPanel(), c);
     }
@@ -76,6 +80,7 @@ public final class CopyPreferencesPanel extends DefaultTraversablePanel {
         group.add(preSnippet);
         group.add(codeMarkupSnippet);
         group.add(fullSnippet);
+        group.add(rtfSnippet);
     }
 
     @Override
@@ -86,6 +91,7 @@ public final class CopyPreferencesPanel extends DefaultTraversablePanel {
             preSnippet.setSelected(prefs.getCopyFormat() == CopyPreferences.PRE);
             codeMarkupSnippet.setSelected(prefs.getCopyFormat() == CopyPreferences.CODEMARKUP);
             fullSnippet.setSelected(prefs.getCopyFormat() == CopyPreferences.FULL);
+            rtfSnippet.setSelected(prefs.getCopyFormat() == CopyPreferences.RTF);
         }
     }
 
@@ -104,6 +110,9 @@ public final class CopyPreferencesPanel extends DefaultTraversablePanel {
             }
             else if (fullSnippet.isSelected()) {
                 prefs.setCopyFormat(CopyPreferences.FULL);
+            }
+            else if (rtfSnippet.isSelected()) {
+                prefs.setCopyFormat(CopyPreferences.RTF);
             }
         }
     }

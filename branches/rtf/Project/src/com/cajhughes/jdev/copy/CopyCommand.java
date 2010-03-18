@@ -64,7 +64,7 @@ public class CopyCommand extends Command {
                 final HtmlFormatter formatter =
                     new HtmlFormatter(getFilename(node), EditorUtil.getSelectedText(context));
                 formatter.format(writer, CopySettings.getCurrent().getCopyFormat());
-                ClipboardUtil.setContents(writer);
+                ClipboardUtil.setContents(writer, CopySettings.getCurrent().getCopyFormat());
             }
             catch (Exception e) {
                 LogManager.getLogManager().getMsgPage().log(e);
