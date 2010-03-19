@@ -1,5 +1,8 @@
 package com.cajhughes.jdev.copy.controller;
 
+import com.cajhughes.jdev.copy.model.CopyPreferences;
+import com.cajhughes.jdev.copy.model.CopySettings;
+import com.cajhughes.jdev.copy.view.resource.CopyResourceUtil;
 import com.cajhughes.jdev.util.ClipboardUtil;
 import com.cajhughes.jdev.util.EditorUtil;
 import com.cajhughes.jdev.util.NodeUtil;
@@ -25,6 +28,16 @@ public class CopyController implements Controller {
 
     @Override
     public boolean update(final IdeAction action, final Context context) {
+        CopyPreferences prefs = CopySettings.getCurrent();
+        if (prefs != null) {
+            int format = prefs.getCopyFormat();
+            if (format == CopyPreferences.RTF) {
+                action.setName(CopyResourceUtil.getString("EXTENSION_RTF_NAME"));
+            }
+            else {
+                action.setName(CopyResourceUtil.getString("EXTENSION_NAME"));
+            }
+        }
         action.setEnabled(
             ClipboardUtil.canBeAccessed() && NodeUtil.isTextNode(context) && EditorUtil.hasActiveSelection(context));
         return true;
