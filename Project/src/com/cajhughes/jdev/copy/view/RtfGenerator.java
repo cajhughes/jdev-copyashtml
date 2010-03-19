@@ -1,5 +1,6 @@
 package com.cajhughes.jdev.copy.view;
 
+import com.cajhughes.jdev.copy.model.CopyPreferences;
 import java.awt.Font;
 import java.io.IOException;
 import java.io.Writer;
@@ -8,22 +9,18 @@ import java.util.List;
 import oracle.javatools.buffer.LineMap;
 import oracle.javatools.buffer.TextBuffer;
 import oracle.javatools.editor.BasicDocument;
-import oracle.javatools.editor.EditorProperties;
 import oracle.javatools.editor.language.BaseStyle;
 import oracle.javatools.editor.language.DocumentRenderer;
 import oracle.javatools.editor.language.StyledFragment;
 import oracle.javatools.editor.language.StyledFragmentsList;
 
 public class RtfGenerator extends Generator {
+    private CopyPreferences preferences;
     private List<BaseStyle> styleTable = null;
-    private Font baseFont = Font.getFont(Font.DIALOG_INPUT);
 
-    public RtfGenerator(final BasicDocument document) {
+    public RtfGenerator(final BasicDocument document, final CopyPreferences prefs) {
         super(document);
-        EditorProperties properties = EditorProperties.getProperties();
-        if (properties != null) {
-            baseFont = properties.getBaseFont();
-        }
+        preferences = prefs;
     }
 
     public void generateRTF(final Writer writer) throws IOException {
@@ -34,19 +31,15 @@ public class RtfGenerator extends Generator {
         StyledFragmentsList fragmentList = renderer.renderLines(0, lineCount - 1);
         styleTable = generateStyleTable(fragmentList);
         int numFragments = fragmentList.size();
-        writer.write("{\\rtf1\\ansi\\deff0{\\fonttbl{\\f0 Courier New;}}");
+        writer.write("{\\rtf1\\ansi\\deff0{\\fonttbl{\\f0" + preferences.getFontFamily() + ";}}");
         writeColorTable(writer);
         writer.write("{\\pard");
-        int columnCount = 0;
         for (int i = 0; i < numFragments; i++) {
             StyledFragment fragment = fragmentList.get(i);
             if (fragment != null) {
-                int startOffset = fragment.startOffset;
-                int endOffset = fragment.endOffset;
-                String styleName = fragment.styleName;
-                writeStart(writer, styleName);
-                for (int j = startOffset; j < endOffset; j++) {
-                    columnCount = writeChar(writer, textBuffer.getChar(j), columnCount);
+                writeStart(writer, fragment.styleName);
+                for (int j = fragment.startOffset; j < fragment.endOffset; j++) {
+                    writeChar(writer, textBuffer.getChar(j));
                 }
                 writeEnd(writer);
             }
@@ -96,10 +89,11 @@ public class RtfGenerator extends Generator {
                     writer.write("\\i");
                 }
                 if (colorIndex >= 0) {
-                    writer.write("\\cf" + colorIndex);
+                    // Color Table references seem to be 1-based, so add 1 to the index
+                    writer.write("\\cf" + (colorIndex + 1));
                 }
-                if (baseFont != null) {
-                    writer.write("\\fs" + (baseFont.getSize() * 2));
+                if (preferences != null) {
+                    writer.write("\\fs" + (preferences.getFontSize() * 2));
                 }
                 writer.write(" ");
             }
@@ -110,35 +104,27 @@ public class RtfGenerator extends Generator {
         writer.write("}");
     }
 
-    protected int writeChar(final Writer writer, final char c, final int column) throws IOException {
-        int result = column;
+    protected void writeChar(final Writer writer, final char c) throws IOException {
         switch (c) {
             case 9:
                 writer.write("\\tab ");
-                result++;
                 break;
             case 10:
             case 13:
                 writer.write("\\line ");
-                result = 0;
                 break;
             case 92:
                 writer.write("\\");
-                result++;
                 break;
             case 123:
                 writer.write("\\{");
-                result++;
                 break;
             case 125:
                 writer.write("\\}");
-                result++;
                 break;
             default:
                 writer.write(c);
-                result++;
                 break;
         }
-        return result;
     }
 }

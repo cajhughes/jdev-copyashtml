@@ -1,5 +1,7 @@
 package com.cajhughes.jdev.copy.model;
 
+import java.awt.Font;
+import oracle.javatools.editor.EditorProperties;
 import oracle.javatools.util.Copyable;
 
 /**
@@ -17,10 +19,20 @@ public final class CopyPreferences implements Copyable {
     public static final int RTF = 4;
 
     private int copyFormat;
+    private String fontFamily = EditorProperties.getProperties().getBaseFont().getFamily();
+    private int fontSize;
 
     public CopyPreferences() {
         super();
         copyFormat = CODEMARKUP;
+        EditorProperties properties = EditorProperties.getProperties();
+        if (properties != null) {
+            Font font = properties.getBaseFont();
+            if (font != null) {
+                fontFamily = font.getFamily();
+                fontSize = font.getSize();
+            }
+        }
     }
 
     @Override
@@ -32,13 +44,31 @@ public final class CopyPreferences implements Copyable {
 
     protected final void copyToImpl(CopyPreferences copy) {
         copy.copyFormat = this.copyFormat;
+        copy.fontFamily = this.fontFamily;
+        copy.fontSize = this.fontSize;
     }
 
     public int getCopyFormat() {
         return copyFormat;
     }
 
+    public String getFontFamily() {
+        return fontFamily;
+    }
+
+    public int getFontSize() {
+        return fontSize;
+    }
+
     public void setCopyFormat(final int format) {
         copyFormat = format;
+    }
+
+    public void setFontFamily(final String family) {
+        fontFamily = family;
+    }
+
+    public void setFontSize(final int size) {
+        fontSize = size;
     }
 }
