@@ -10,7 +10,6 @@ import oracle.ide.Context;
 import oracle.ide.Ide;
 import oracle.ide.controller.Command;
 import oracle.ide.log.LogManager;
-import oracle.ide.model.Node;
 import oracle.ide.model.TextNode;
 
 /**
@@ -36,11 +35,6 @@ public class CopyCommand extends Command {
         else {
             return cmdId.intValue();
         }
-    }
-
-    @Override
-    public Node[] getAffectedNodes() {
-        return null;
     }
 
     @Override

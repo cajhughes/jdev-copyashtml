@@ -33,14 +33,15 @@ public final class ClipboardUtil {
     public static void setContents(final StringWriter writer, final int format, final String text) {
         if (writer != null && writer.getBuffer() != null) {
             Clipboard system = Toolkit.getDefaultToolkit().getSystemClipboard();
+            StringBuffer buffer = writer.getBuffer();
             if (format != CopyPreferences.RTF) {
-                StringSelection selection = new StringSelection(writer.getBuffer().toString());
+                StringSelection selection = new StringSelection(buffer.toString());
                 system.setContents(selection, selection);
             }
             else {
                 RtfTransferable transferable =
                     new RtfTransferable(new ByteArrayInputStream(text.getBytes()),
-                                        new ByteArrayInputStream(writer.getBuffer().toString().getBytes()));
+                                        new ByteArrayInputStream(buffer.toString().getBytes()));
                 system.setContents(transferable, null);
             }
         }

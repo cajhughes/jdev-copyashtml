@@ -30,16 +30,15 @@ public class CopyController implements Controller {
     public boolean update(final IdeAction action, final Context context) {
         CopyPreferences prefs = CopySettings.getCurrent();
         if (prefs != null) {
-            int format = prefs.getCopyFormat();
-            if (format == CopyPreferences.RTF) {
+            if (prefs.isRTF()) {
                 action.setName(CopyResourceUtil.getString("EXTENSION_RTF_NAME"));
             }
-            else {
+            else if (prefs.isHTML()) {
                 action.setName(CopyResourceUtil.getString("EXTENSION_NAME"));
             }
         }
-        action.setEnabled(
-            ClipboardUtil.canBeAccessed() && NodeUtil.isTextNode(context) && EditorUtil.hasActiveSelection(context));
+        action.setEnabled(ClipboardUtil.canBeAccessed() && NodeUtil.isTextNode(context) &&
+                          EditorUtil.hasActiveSelection(context));
         return true;
     }
 }

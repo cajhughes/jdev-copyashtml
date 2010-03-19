@@ -28,6 +28,7 @@ public class TextBufferHelper {
      * end of the specified line index.  The buffer returned does not contain
      * any trailing carriage return or line feed character.
      */
+
     public StringBuffer getLine(final int line) {
         StringBuffer result = null;
         if (textBuffer != null && stringBuffer != null) {
@@ -40,13 +41,10 @@ public class TextBufferHelper {
                     if (lineEndOffset >= lineStartOffset) {
                         result = new StringBuffer();
                         if (isLastLine(line)) {
-                            result.append(stringBuffer.substring(lineStartOffset,
-                                                                 lineEndOffset));
+                            result.append(stringBuffer.substring(lineStartOffset, lineEndOffset));
                         }
                         else if (lineEndOffset > lineStartOffset) {
-                            result.append(stringBuffer.substring(lineStartOffset,
-                                                                 lineEndOffset -
-                                                                 1));
+                            result.append(stringBuffer.substring(lineStartOffset, lineEndOffset - 1));
                         }
                     }
                 }
@@ -58,6 +56,7 @@ public class TextBufferHelper {
     /*
      * Returns a StringBuffer that matches the contents of the TextBuffer.
      */
+
     public StringBuffer getText() {
         StringBuffer result = null;
         if (textBuffer != null) {
@@ -82,6 +81,7 @@ public class TextBufferHelper {
      * class are zero-based, as compared to the one-based value returned
      * from getLineCount().
      */
+
     public boolean isLastLine(final int index) {
         boolean isLast = false;
         if (textBuffer != null) {
