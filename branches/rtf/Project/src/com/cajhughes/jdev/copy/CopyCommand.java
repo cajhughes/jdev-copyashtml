@@ -73,7 +73,8 @@ public class CopyCommand extends Command {
     private String getFilename(final TextNode node) {
         String filename = node.getShortLabel();
         try {
-            if (Class.forName("oracle.ide.db.model.DBObjectNode").isInstance(node)) {
+            if (Class.forName("oracle.ide.db.model.DBObjectNode").isInstance(node) ||
+                Class.forName("oracle.ide.db.model.SqlNode").isInstance(node)) {
                 if (!filename.endsWith(SQL)) {
                     filename = filename + SQL;
                 }
