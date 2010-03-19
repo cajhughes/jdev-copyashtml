@@ -44,7 +44,7 @@ public class HtmlGenerator extends Generator {
             int lineLength = line.length();
             for (int j = 0; j < lineLength; j++) {
                 char c = line.charAt(j);
-                switch(c) {
+                switch (c) {
                     case 10:
                     case 13:
                         break;
@@ -69,7 +69,7 @@ public class HtmlGenerator extends Generator {
         DocumentRenderer renderer = document.getDocumentRenderer();
         LineMap lineMap = textBuffer.getLineMap();
         int lineCount = lineMap.getLineCount();
-        StyledFragmentsList fragmentList = renderer.renderLines(0, lineCount-1);
+        StyledFragmentsList fragmentList = renderer.renderLines(0, lineCount - 1);
         int numFragments = fragmentList.size();
         writer.write("<pre>\n<code>\n");
         int columnCount = 0;
@@ -94,7 +94,7 @@ public class HtmlGenerator extends Generator {
         DocumentRenderer renderer = document.getDocumentRenderer();
         LineMap lineMap = textBuffer.getLineMap();
         int lineCount = lineMap.getLineCount();
-        StyledFragmentsList fragmentList = renderer.renderLines(0, lineCount-1);
+        StyledFragmentsList fragmentList = renderer.renderLines(0, lineCount - 1);
         int numFragments = fragmentList.size();
         writer.write("<pre>");
         int columnCount = 0;
@@ -114,15 +114,15 @@ public class HtmlGenerator extends Generator {
         writer.write("</pre>");
     }
 
-    protected int writeChar(final Writer writer, final char c, final int column, final boolean escapeSpace)
-    throws IOException {
+    protected int writeChar(final Writer writer, final char c, final int column,
+                            final boolean escapeSpace) throws IOException {
         int result = column;
-        switch(c) {
+        switch (c) {
             case 9:
                 int nextStop = Utilities.getNextTabStop(tabSize, column);
                 int spaces = nextStop - column;
                 for (int s = 0; s < spaces; s++) {
-                    if(escapeSpace) {
+                    if (escapeSpace) {
                         writer.write("&nbsp;");
                     }
                     else {
