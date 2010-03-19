@@ -30,7 +30,7 @@ public final class ClipboardUtil {
         return access;
     }
 
-    public static void setContents(final StringWriter writer, final int format) {
+    public static void setContents(final StringWriter writer, final int format, final String text) {
         if (writer != null && writer.getBuffer() != null) {
             Clipboard system = Toolkit.getDefaultToolkit().getSystemClipboard();
             if (format != CopyPreferences.RTF) {
@@ -39,7 +39,8 @@ public final class ClipboardUtil {
             }
             else {
                 RtfTransferable transferable =
-                    new RtfTransferable(new ByteArrayInputStream(writer.getBuffer().toString().getBytes()));
+                    new RtfTransferable(new ByteArrayInputStream(text.getBytes()),
+                                        new ByteArrayInputStream(writer.getBuffer().toString().getBytes()));
                 system.setContents(transferable, null);
             }
         }

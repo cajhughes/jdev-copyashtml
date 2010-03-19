@@ -2,13 +2,20 @@ package com.cajhughes.jdev.copy.view;
 
 import com.cajhughes.jdev.copy.model.CopyPreferences;
 import com.cajhughes.jdev.copy.view.resource.CopyResourceUtil;
+import java.awt.Component;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import javax.swing.ButtonGroup;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import oracle.ide.ceditor.options.FontManager;
+import oracle.ide.ceditor.options.OptionsArb;
+import oracle.ide.controls.ItemSelectableTracker;
+import oracle.ide.controls.NonNullableComboBoxModel;
 import oracle.ide.panels.DefaultTraversablePanel;
 import oracle.ide.panels.TraversableContext;
 import oracle.ide.panels.TraversalException;
@@ -28,6 +35,10 @@ public final class CopyPreferencesPanel extends DefaultTraversablePanel {
     private final JRadioButton codeMarkupSnippet = new JRadioButton();
     private final JRadioButton fullSnippet = new JRadioButton();
     private final JRadioButton rtfSnippet = new JRadioButton();
+    private final JLabel familyLabel = new JLabel();
+    private final JComboBox fontFamily = new JComboBox();
+    private final JLabel sizeLabel = new JLabel();
+    private final JComboBox fontSize = new JComboBox();
 
     public CopyPreferencesPanel() {
         initialiseResources();
@@ -42,6 +53,8 @@ public final class CopyPreferencesPanel extends DefaultTraversablePanel {
         ResourceUtils.resButton(codeMarkupSnippet, CopyResourceUtil.getString("CopyPanelCodeMarkupOption"));
         ResourceUtils.resButton(fullSnippet, CopyResourceUtil.getString("CopyPanelFullOption"));
         ResourceUtils.resButton(rtfSnippet, CopyResourceUtil.getString("CopyPanelRTFOption"));
+        ResourceUtils.resLabel(familyLabel, familyLabel, OptionsArb.getString(OptionsArb.LABEL_PRINT_HTML_FONT));
+        ResourceUtils.resLabel(sizeLabel, sizeLabel, OptionsArb.getString(OptionsArb.LABEL_PRINT_HTML_SIZE));
     }
 
     protected void layoutControls() {
@@ -69,7 +82,17 @@ public final class CopyPreferencesPanel extends DefaultTraversablePanel {
         add(fullSnippet, c);
         c.gridy++;
         add(rtfSnippet, c);
-       c.gridy++;
+        c.gridy++;
+        c.insets = new Insets(0, 48, 5, 5);
+        add(familyLabel, c);
+        c.insets = new Insets(0, 120, 5, 5);
+        add(fontFamily, c);
+        c.gridy++;
+        c.insets = new Insets(0, 48, 5, 5);
+        add(sizeLabel, c);
+        c.insets = new Insets(0, 120, 5, 5);
+        add(fontSize, c);
+        c.gridy++;
         c.weighty = 1.0d;
         add(new JPanel(), c);
     }
@@ -81,12 +104,29 @@ public final class CopyPreferencesPanel extends DefaultTraversablePanel {
         group.add(codeMarkupSnippet);
         group.add(fullSnippet);
         group.add(rtfSnippet);
+        FontManager fontManager = FontManager.getInstance();
+        String[] families = fontManager.getAllFontFamilies();
+        NonNullableComboBoxModel fontModel = new NonNullableComboBoxModel(families);
+        fontFamily.setModel(fontModel);
+        fontFamily.setEditable(false);
+        fontFamily.setSelectedItem(Font.DIALOG_INPUT);
+        Integer[] sizes = { 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24 };
+        NonNullableComboBoxModel sizeModel = new NonNullableComboBoxModel(sizes);
+        fontSize.setModel(sizeModel);
+        fontSize.setEditable(false);
+        fontSize.setSelectedItem(sizes[0]);
+        Component[] dependents = { familyLabel, fontFamily, sizeLabel, fontSize };
+        new ItemSelectableTracker(rtfSnippet, dependents);
     }
 
     @Override
     public void onEntry(final TraversableContext context) {
         CopyPreferences prefs = (CopyPreferences)context.find(CopyPreferences.KEY);
         if (prefs != null) {
+            // Load the font information first, so that we disable/enable when we set rtfSnippet
+            fontFamily.setSelectedItem(prefs.getFontFamily());
+            fontSize.setSelectedItem(prefs.getFontSize());
+
             codeSnippet.setSelected(prefs.getCopyFormat() == CopyPreferences.CODE);
             preSnippet.setSelected(prefs.getCopyFormat() == CopyPreferences.PRE);
             codeMarkupSnippet.setSelected(prefs.getCopyFormat() == CopyPreferences.CODEMARKUP);
@@ -114,6 +154,8 @@ public final class CopyPreferencesPanel extends DefaultTraversablePanel {
             else if (rtfSnippet.isSelected()) {
                 prefs.setCopyFormat(CopyPreferences.RTF);
             }
+            prefs.setFontFamily((String)fontFamily.getSelectedItem());
+            prefs.setFontSize(((Integer)fontSize.getSelectedItem()).intValue());
         }
     }
 }

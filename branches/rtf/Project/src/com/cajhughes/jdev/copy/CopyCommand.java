@@ -1,7 +1,7 @@
 package com.cajhughes.jdev.copy;
 
 import com.cajhughes.jdev.copy.model.CopySettings;
-import com.cajhughes.jdev.copy.view.HtmlFormatter;
+import com.cajhughes.jdev.copy.view.Formatter;
 import com.cajhughes.jdev.copy.view.resource.CopyResourceUtil;
 import com.cajhughes.jdev.util.ClipboardUtil;
 import com.cajhughes.jdev.util.EditorUtil;
@@ -61,10 +61,10 @@ public class CopyCommand extends Command {
             final TextNode node = (TextNode)context.getNode();
             final StringWriter writer = new StringWriter();
             try {
-                final HtmlFormatter formatter =
-                    new HtmlFormatter(getFilename(node), EditorUtil.getSelectedText(context));
-                formatter.format(writer, CopySettings.getCurrent().getCopyFormat());
-                ClipboardUtil.setContents(writer, CopySettings.getCurrent().getCopyFormat());
+                String selectedText = EditorUtil.getSelectedText(context);
+                final Formatter formatter = new Formatter(getFilename(node), selectedText);
+                formatter.format(writer, CopySettings.getCurrent());
+                ClipboardUtil.setContents(writer, CopySettings.getCurrent().getCopyFormat(), selectedText);
             }
             catch (Exception e) {
                 LogManager.getLogManager().getMsgPage().log(e);
