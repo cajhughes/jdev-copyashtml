@@ -33,7 +33,7 @@ public class RtfGenerator extends Generator {
         int numFragments = fragmentList.size();
         writer.write("{\\rtf1\\ansi{\\fonttbl\\f0\\fnil\\fcharset0 " + preferences.getFontFamily() + ";}");
         writeColorTable(writer);
-        writer.write("{\\pard ");
+        writer.write("{\\pard\\f0 ");
         for (int i = 0; i < numFragments; i++) {
             StyledFragment fragment = fragmentList.get(i);
             if (fragment != null) {
