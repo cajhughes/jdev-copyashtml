@@ -3,9 +3,10 @@ package com.cajhughes.jdev.util;
 import com.cajhughes.jdev.copy.model.CopyPreferences;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.ByteArrayInputStream;
 import java.io.StringWriter;
+import oracle.ide.log.LogManager;
 
 /**
  * This class provides static helper methods for accessing and interacting
@@ -30,18 +31,32 @@ public final class ClipboardUtil {
         return access;
     }
 
-    public static void setContents(final StringWriter writer, final int format, final String text) {
+    public static void setContents(final StringWriter writer, final int format,
+                                   final String text) {
         if (writer != null && writer.getBuffer() != null) {
-            Clipboard system = Toolkit.getDefaultToolkit().getSystemClipboard();
+            Clipboard system =
+                Toolkit.getDefaultToolkit().getSystemClipboard();
             StringBuffer buffer = writer.getBuffer();
-            if (format != CopyPreferences.RTF) {
-                StringSelection selection = new StringSelection(buffer.toString());
-                system.setContents(selection, selection);
+            CopyTransferable transferable = null;
+            try {
+                if (CopyPreferences.RTF == format) {
+                    transferable =
+                            new CopyTransferable(new ByteArrayInputStream(buffer.toString().getBytes()),
+                                                 CopyTransferable.RTF_FLAVOR);
+                    transferable.addDataFlavor(new ByteArrayInputStream(text.getBytes()),
+                                               CopyTransferable.PLAIN_FLAVOR);
+                }
+                else {
+                    transferable =
+                            new CopyTransferable(new ByteArrayInputStream(buffer.toString().getBytes()),
+                                                 CopyTransferable.PLAIN_FLAVOR);
+                }
             }
-            else {
-                RtfTransferable transferable =
-                    new RtfTransferable(new ByteArrayInputStream(text.getBytes()),
-                                        new ByteArrayInputStream(buffer.toString().getBytes()));
+            catch (UnsupportedFlavorException ufe) {
+                LogManager.getLogManager().getMsgPage().log(ufe.getMessage());
+                transferable = null;
+            }
+            if (transferable != null) {
                 system.setContents(transferable, null);
             }
         }
