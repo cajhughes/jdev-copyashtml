@@ -1,5 +1,6 @@
 package com.cajhughes.jdev.copy;
 
+import com.cajhughes.jdev.copy.model.CopyPreferences;
 import com.cajhughes.jdev.copy.model.CopySettings;
 import com.cajhughes.jdev.copy.view.Formatter;
 import com.cajhughes.jdev.copy.view.resource.CopyResourceUtil;
@@ -56,9 +57,10 @@ public class CopyCommand extends Command {
             final StringWriter writer = new StringWriter();
             try {
                 String selectedText = EditorUtil.getSelectedText(context);
+                CopyPreferences prefs = CopySettings.getCurrent();
                 final Formatter formatter = new Formatter(getFilename(node), selectedText);
-                formatter.format(writer, CopySettings.getCurrent());
-                ClipboardUtil.setContents(writer, CopySettings.getCurrent().getCopyFormat(), selectedText);
+                formatter.format(writer, prefs);
+                ClipboardUtil.setContents(writer, prefs.getCopyFormat(), selectedText);
             }
             catch (Exception e) {
                 LogManager.getLogManager().getMsgPage().log(e);
