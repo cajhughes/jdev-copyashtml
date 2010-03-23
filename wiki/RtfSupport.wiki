@@ -10,18 +10,16 @@ This functionality has been tested and confirmed to work successfully in:
   * [http://en.wikipedia.org/wiki/WordPad WordPad] on Microsoft Windows, and
   * [http://en.wikipedia.org/wiki/TextEdit TextEdit] on Mac OS X
 
-It specifies the following RTF markup for the header:
+It specifies the following surrounding RTF markup:
 
 {{{
     {\rtf1\ansi
-    {\fonttbl{\f0\fnil <font-name-specified-in-preferences>;}}
-    {\colortbl;<color table entries>...;}
+    {\fonttbl{\f0\fnil <<font-name-specified-in-preferences>>;}}
+    {\colortbl;<<color table entries>>;}
     {\pard\f0
-}}}
 
-and for the footer:
+    <<markup-for-each-styled-fragment>>
 
-{{{
     \par}}
 }}}
 
@@ -36,4 +34,4 @@ where:
   * \b is specified if the fragment is to be bold
   * \i is specified if the fragment is to be italic
   * \cfN specifies the entry in the colortbl to use
-  * \fsN specifies the point size
+  * \fsN specifies the font size specified in preferences
