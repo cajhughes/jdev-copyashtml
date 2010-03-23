@@ -1,7 +1,7 @@
 #labels Phase-Design
 # RTF Support in the extension
 
-There is an [http://jdev-copyashtml.googlecode.com/files/CopyAsHTML-11.2.6.zip experimental branch] of the extension that extends the current functionality to provide the additional capability to copy the currently selected text in [http://en.wikipedia.org/wiki/Rich_Text_Format Rich Text Format] (RTF).  It allows the font to be used for the RTF output to be specified independently via the preferences panel:
+There is an [http://jdev-copyashtml.googlecode.com/files/CopyAsHTML-11.2.6.zip experimental branch] of the extension that extends the current functionality to provide the additional capability to copy the currently selected text in [http://en.wikipedia.org/wiki/Rich_Text_Format Rich Text Format] (RTF).  It allows the font name & size to be used for the RTF output to be specified independently via the preferences panel:
 
 http://dl.dropbox.com/u/191565/jdev/copy-font-spec.png
 
