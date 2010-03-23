@@ -16,7 +16,7 @@ import oracle.javatools.editor.language.StyledFragmentsList;
 
 public class RtfGenerator extends Generator {
     private CopyPreferences preferences;
-    private List<BaseStyle> styleTable = null;
+    private List<BaseStyle> baseStyles = null;
 
     public RtfGenerator(final BasicDocument document, final CopyPreferences prefs) {
         super(document);
@@ -29,7 +29,7 @@ public class RtfGenerator extends Generator {
         LineMap lineMap = textBuffer.getLineMap();
         int lineCount = lineMap.getLineCount();
         StyledFragmentsList fragmentList = renderer.renderLines(0, lineCount - 1);
-        styleTable = generateStyleTable(fragmentList);
+        baseStyles = getBaseStyles(fragmentList);
         int numFragments = fragmentList.size();
         writer.write("{\\rtf1\\ansi{\\fonttbl{\\f0\\fnil " + preferences.getFontFamily() + ";}}");
         writeColorTable(writer);
@@ -47,7 +47,7 @@ public class RtfGenerator extends Generator {
         writer.write("\\par}}");
     }
 
-    protected List<BaseStyle> generateStyleTable(final StyledFragmentsList fragmentList) {
+    protected List<BaseStyle> getBaseStyles(final StyledFragmentsList fragmentList) {
         List<BaseStyle> colorTable = new ArrayList<BaseStyle>();
         if (fragmentList != null) {
             int numFragments = fragmentList.size();
@@ -65,9 +65,9 @@ public class RtfGenerator extends Generator {
     }
 
     protected void writeColorTable(final Writer writer) throws IOException {
-        if (styleTable != null) {
+        if (baseStyles != null) {
             writer.write("{\\colortbl;");
-            for (BaseStyle style : styleTable) {
+            for (BaseStyle style : baseStyles) {
                 writer.write("\\red" + style.getForegroundColor().getRed());
                 writer.write("\\green" + style.getForegroundColor().getGreen());
                 writer.write("\\blue" + style.getForegroundColor().getBlue() + ";");
@@ -80,7 +80,7 @@ public class RtfGenerator extends Generator {
         if (registry != null) {
             BaseStyle style = getStyle(styleName);
             if (style != null) {
-                int colorIndex = styleTable.indexOf(style);
+                int colorIndex = baseStyles.indexOf(style);
                 writer.write("{");
                 if ((style.getFontStyle() & Font.BOLD) > 0) {
                     writer.write("\\b");
