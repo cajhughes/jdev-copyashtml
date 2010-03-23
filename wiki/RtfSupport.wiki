@@ -27,7 +27,7 @@ for the header, and
 
 for the footer.
 
-Each [http://www.oracle.com/technology/products/jdev/esdk/api11/oracle/javatools/editor/language/StyledFragment.html StyledFragement] within the active selection is specified with the following markup:
+Each [http://www.oracle.com/technology/products/jdev/esdk/api11/oracle/javatools/editor/language/StyledFragment.html StyledFragment] within the active selection is specified with the following markup:
 
 {{{
     {\b\i\cfN\fsN <escaped-text>}
