@@ -31,7 +31,7 @@ public class RtfGenerator extends Generator {
         StyledFragmentsList fragmentList = renderer.renderLines(0, lineCount - 1);
         styleTable = generateStyleTable(fragmentList);
         int numFragments = fragmentList.size();
-        writer.write("{\\rtf1\\ansi{\\fonttbl{\\f0 " + preferences.getFontFamily() + ";}}");
+        writer.write("{\\rtf1\\ansi{\\fonttbl{\\f0\\fnil " + preferences.getFontFamily() + ";}}");
         writeColorTable(writer);
         writer.write("{\\pard\\f0 ");
         for (int i = 0; i < numFragments; i++) {
@@ -89,7 +89,7 @@ public class RtfGenerator extends Generator {
                     writer.write("\\i");
                 }
                 if (colorIndex >= 0) {
-                    // Color Table references seem to be 1-based, so add 1 to the index
+                    // Color Table references are 1-based, so add 1 to the index
                     writer.write("\\cf" + (colorIndex + 1));
                 }
                 if (preferences != null) {
