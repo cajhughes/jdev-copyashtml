@@ -34,4 +34,4 @@ where:
   * \b is specified if the fragment is to be bold
   * \i is specified if the fragment is to be italic
   * \cfN specifies the entry in the colortbl to use
-  * \fsN specifies the font size specified in preferences
+  * \fsN specifies the font size requested in preferences
