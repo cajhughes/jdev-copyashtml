@@ -3,6 +3,7 @@ package com.cajhughes.jdev.util;
 import com.cajhughes.jdev.copy.model.CopyPreferences;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.ByteArrayInputStream;
 import java.io.StringWriter;
@@ -31,25 +32,19 @@ public final class ClipboardUtil {
         return access;
     }
 
-    public static void setContents(final StringWriter writer, final int format,
-                                   final String text) {
+    public static void setContents(final StringWriter writer, final int format, final String text) {
         if (writer != null && writer.getBuffer() != null) {
-            Clipboard system =
-                Toolkit.getDefaultToolkit().getSystemClipboard();
+            Clipboard system = Toolkit.getDefaultToolkit().getSystemClipboard();
             StringBuffer buffer = writer.getBuffer();
             CopyTransferable transferable = null;
             try {
                 if (CopyPreferences.RTF == format) {
-                    transferable =
-                            new CopyTransferable(new ByteArrayInputStream(buffer.toString().getBytes()),
-                                                 CopyTransferable.RTF_FLAVOR);
-                    transferable.addDataFlavor(new ByteArrayInputStream(text.getBytes()),
-                                               CopyTransferable.PLAIN_FLAVOR);
+                    transferable = new CopyTransferable(new ByteArrayInputStream(buffer.toString().getBytes()),
+                                                        CopyTransferable.RTF_FLAVOR);
+                    transferable.addDataFlavor(text, DataFlavor.stringFlavor);
                 }
                 else {
-                    transferable =
-                            new CopyTransferable(new ByteArrayInputStream(buffer.toString().getBytes()),
-                                                 CopyTransferable.PLAIN_FLAVOR);
+                    transferable = new CopyTransferable(buffer.toString(), DataFlavor.stringFlavor);
                 }
             }
             catch (UnsupportedFlavorException ufe) {

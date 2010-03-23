@@ -5,28 +5,19 @@ import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 
 public class CopyTransferable implements Transferable {
-    public static final DataFlavor PLAIN_FLAVOR = new DataFlavor("text/plain", "Plain Text");
-    public static final DataFlavor RTF_FLAVOR = new DataFlavor("text/rtf", "Rich Text Format");
-    private Object plainData = null;
+    static final DataFlavor RTF_FLAVOR = new DataFlavor("text/rtf", "Rich Text Format");
+    private String stringData = null;
     private Object rtfData = null;
 
     public CopyTransferable(final Object data, final DataFlavor flavor) throws UnsupportedFlavorException {
-        if (PLAIN_FLAVOR.isMimeTypeEqual(flavor)) {
-            plainData = data;
-        }
-        else if (RTF_FLAVOR.isMimeTypeEqual(flavor)) {
-            rtfData = data;
-        }
-        else {
-            throw new UnsupportedFlavorException(flavor);
-        }
+        addDataFlavor(data, flavor);
     }
 
     @Override
     public Object getTransferData(final DataFlavor flavor) throws UnsupportedFlavorException {
         Object result = null;
-        if (PLAIN_FLAVOR.isMimeTypeEqual(flavor)) {
-            result = plainData;
+        if (DataFlavor.stringFlavor.isMimeTypeEqual(flavor)) {
+            result = stringData;
         }
         else if (RTF_FLAVOR.isMimeTypeEqual(flavor)) {
             result = rtfData;
@@ -53,8 +44,8 @@ public class CopyTransferable implements Transferable {
     public DataFlavor[] getTransferDataFlavors() {
         DataFlavor[] result = new DataFlavor[2];
         int i = 0;
-        if (plainData != null) {
-            result[i] = PLAIN_FLAVOR;
+        if (stringData != null) {
+            result[i] = DataFlavor.stringFlavor;
             i++;
         }
         if (rtfData != null) {
@@ -64,8 +55,8 @@ public class CopyTransferable implements Transferable {
     }
 
     public void addDataFlavor(final Object data, final DataFlavor flavor) throws UnsupportedFlavorException {
-        if (PLAIN_FLAVOR.equals(flavor)) {
-            plainData = data;
+        if ((DataFlavor.stringFlavor.isMimeTypeEqual(flavor)) && (data instanceof String)) {
+            stringData = (String)data;
         }
         else if (RTF_FLAVOR.equals(flavor)) {
             rtfData = data;
