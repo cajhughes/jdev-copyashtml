@@ -10,7 +10,7 @@ This functionality has been tested and confirmed to work successfully in:
   * [http://en.wikipedia.org/wiki/WordPad WordPad] on Microsoft Windows, and
   * [http://en.wikipedia.org/wiki/TextEdit TextEdit] on Mac OS X
 
-It specifies the following RTF markup:
+It specifies the following RTF markup for the header:
 
 {{{
     {\rtf1\ansi
@@ -19,13 +19,11 @@ It specifies the following RTF markup:
     {\pard\f0
 }}}
 
-for the header, and
+and for the footer:
 
 {{{
     \par}}
 }}}
-
-for the footer.
 
 Each [http://www.oracle.com/technology/products/jdev/esdk/api11/oracle/javatools/editor/language/StyledFragment.html StyledFragment] within the active selection is specified with the following markup:
 
