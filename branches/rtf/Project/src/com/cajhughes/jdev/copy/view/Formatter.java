@@ -47,8 +47,8 @@ public class Formatter {
             generator.generateCodeMarkup(writer);
         }
         else if (format == CopyPreferences.RTF) {
-            RtfGenerator generator = new RtfGenerator(document, prefs);
-            generator.generateRTF(writer);
+            RtfGenerator generator = new RtfGenerator(document);
+            generator.generateRTF(writer, prefs);
         }
     }
 
