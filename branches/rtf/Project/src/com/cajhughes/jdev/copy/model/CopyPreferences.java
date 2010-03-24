@@ -60,15 +60,6 @@ public final class CopyPreferences implements Copyable {
         return fontSize;
     }
 
-    public boolean isHTML() {
-        return (getCopyFormat() == CODE || getCopyFormat() == PRE || getCopyFormat() == FULL ||
-                getCopyFormat() == CODEMARKUP);
-    }
-
-    public boolean isRTF() {
-        return (getCopyFormat() == RTF);
-    }
-
     public void setCopyFormat(final int format) {
         copyFormat = format;
     }
