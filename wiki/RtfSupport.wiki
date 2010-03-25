@@ -1,7 +1,7 @@
 #labels Phase-Design
 # RTF Support in the extension
 
-There is an [http://jdev-copyashtml.googlecode.com/files/CopyAsHTML-11.2.6.zip experimental branch] of the extension that extends the current functionality to provide the additional capability to copy the currently selected text in [http://en.wikipedia.org/wiki/Rich_Text_Format Rich Text Format] (RTF).  It allows the font name & size to be used for the RTF output to be specified independently via the preferences panel:
+The 11.3.0 release of the extension includes the new ability to copy the currently selected text in [http://en.wikipedia.org/wiki/Rich_Text_Format Rich Text Format] (RTF).  It allows the font name & size to be used for the RTF output to be specified independently via the preferences panel:
 
 http://dl.dropbox.com/u/191565/jdev/copy-font-spec.png
 
@@ -16,7 +16,7 @@ It specifies the following surrounding RTF markup:
     {\rtf1\ansi
     {\fonttbl{\f0\fnil <<font-name-specified-in-preferences>>;}}
     {\colortbl;<<color table entries>>;}
-    {\pard\f0
+    {\pard\f0\fsN
 
     <<markup-for-each-styled-fragment>>
 
@@ -26,7 +26,7 @@ It specifies the following surrounding RTF markup:
 Each [http://www.oracle.com/technology/products/jdev/esdk/api11/oracle/javatools/editor/language/StyledFragment.html StyledFragment] within the active selection is specified with the following markup:
 
 {{{
-    {\b\i\cfN\fsN <escaped-text>}
+    {\b\i\cfN <escaped-text>}
 }}}
 
 where:
@@ -34,4 +34,3 @@ where:
   * \b is specified if the fragment is to be bold
   * \i is specified if the fragment is to be italic
   * \cfN specifies the entry in the colortbl to use
-  * \fsN specifies the font size requested in preferences
