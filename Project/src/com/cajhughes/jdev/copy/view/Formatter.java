@@ -17,18 +17,19 @@ import oracle.javatools.editor.print.HTMLGeneratorOptions;
  *
  * @author Chris Hughes
  */
-public class HtmlFormatter {
+public class Formatter {
     private String filename = null;
     private String text = null;
 
-    public HtmlFormatter(final String filename, final String text) {
+    public Formatter(final String filename, final String text) {
         this.filename = filename;
         this.text = text;
     }
 
-    public void format(final Writer writer, final int format) throws BadLocationException, IOException {
+    public void format(final Writer writer, final CopyPreferences prefs) throws BadLocationException, IOException {
         BasicDocument document = new BasicDocument(filename);
         document.insertString(0, text, null);
+        int format = prefs.getCopyFormat();
         if (format == CopyPreferences.CODE) {
             HtmlGenerator generator = new HtmlGenerator(document);
             generator.generateCode(writer);
@@ -44,6 +45,10 @@ public class HtmlFormatter {
         else if (format == CopyPreferences.CODEMARKUP) {
             HtmlGenerator generator = new HtmlGenerator(document);
             generator.generateCodeMarkup(writer);
+        }
+        else if (format == CopyPreferences.RTF) {
+            RtfGenerator generator = new RtfGenerator(document, prefs);
+            generator.generateRTF(writer);
         }
     }
 

@@ -11,9 +11,7 @@ import oracle.javatools.editor.BasicDocument;
 import oracle.javatools.editor.EditorProperties;
 import oracle.javatools.editor.Utilities;
 import oracle.javatools.editor.language.BaseStyle;
-import oracle.javatools.editor.language.BuiltInStyles;
 import oracle.javatools.editor.language.DocumentRenderer;
-import oracle.javatools.editor.language.StyleRegistry;
 import oracle.javatools.editor.language.StyledFragment;
 import oracle.javatools.editor.language.StyledFragmentsList;
 
@@ -23,16 +21,13 @@ import oracle.javatools.editor.language.StyledFragmentsList;
  *
  * @author Chris Hughes
  */
-public class HtmlGenerator {
-    private BasicDocument document = null;
-    private StyleRegistry registry = null;
+public class HtmlGenerator extends Generator {
     private int tabSize = 0;
 
     public HtmlGenerator(final BasicDocument document) {
-        this.document = document;
+        super(document);
         EditorProperties properties = EditorProperties.getProperties();
         if (properties != null) {
-            registry = properties.getStyleRegistry();
             tabSize = properties.getIntegerProperty(EditorProperties.PROPERTY_TAB_SIZE);
         }
     }
@@ -49,7 +44,7 @@ public class HtmlGenerator {
             int lineLength = line.length();
             for (int j = 0; j < lineLength; j++) {
                 char c = line.charAt(j);
-                switch(c) {
+                switch (c) {
                     case 10:
                     case 13:
                         break;
@@ -74,7 +69,7 @@ public class HtmlGenerator {
         DocumentRenderer renderer = document.getDocumentRenderer();
         LineMap lineMap = textBuffer.getLineMap();
         int lineCount = lineMap.getLineCount();
-        StyledFragmentsList fragmentList = renderer.renderLines(0, lineCount-1);
+        StyledFragmentsList fragmentList = renderer.renderLines(0, lineCount - 1);
         int numFragments = fragmentList.size();
         writer.write("<pre>\n<code>\n");
         int columnCount = 0;
@@ -99,7 +94,7 @@ public class HtmlGenerator {
         DocumentRenderer renderer = document.getDocumentRenderer();
         LineMap lineMap = textBuffer.getLineMap();
         int lineCount = lineMap.getLineCount();
-        StyledFragmentsList fragmentList = renderer.renderLines(0, lineCount-1);
+        StyledFragmentsList fragmentList = renderer.renderLines(0, lineCount - 1);
         int numFragments = fragmentList.size();
         writer.write("<pre>");
         int columnCount = 0;
@@ -119,23 +114,15 @@ public class HtmlGenerator {
         writer.write("</pre>");
     }
 
-    protected BaseStyle getNonPlainStyle(final String styleName) {
-        BaseStyle baseStyle = null;
-        if (styleName != null && !styleName.equals(BuiltInStyles.BUILTIN_PLAIN_STYLE)) {
-            baseStyle = registry.lookupStyle(styleName);
-        }
-        return baseStyle;
-    }
-
-    protected int writeChar(final Writer writer, final char c, final int column, final boolean escapeSpace)
-    throws IOException {
+    protected int writeChar(final Writer writer, final char c, final int column,
+                            final boolean escapeSpace) throws IOException {
         int result = column;
-        switch(c) {
+        switch (c) {
             case 9:
                 int nextStop = Utilities.getNextTabStop(tabSize, column);
                 int spaces = nextStop - column;
                 for (int s = 0; s < spaces; s++) {
-                    if(escapeSpace) {
+                    if (escapeSpace) {
                         writer.write("&nbsp;");
                     }
                     else {
@@ -187,7 +174,7 @@ public class HtmlGenerator {
 
     protected void writeFontStart(final Writer writer, final String styleName) throws IOException {
         if (registry != null) {
-            BaseStyle style = getNonPlainStyle(styleName);
+            BaseStyle style = getStyle(styleName);
             if (style != null) {
                 writer.write("<font color=\"");
                 writeColor(writer, style.getForegroundColor());
@@ -204,7 +191,7 @@ public class HtmlGenerator {
 
     protected void writeFontEnd(final Writer writer, final String styleName) throws IOException {
         if (registry != null) {
-            BaseStyle style = getNonPlainStyle(styleName);
+            BaseStyle style = getStyle(styleName);
             if (style != null) {
                 if ((style.getFontStyle() & Font.BOLD) > 0) {
                     writer.write("</strong>");
@@ -219,7 +206,7 @@ public class HtmlGenerator {
 
     protected void writeSpanStart(final Writer writer, final String styleName) throws IOException {
         if (registry != null) {
-            BaseStyle style = getNonPlainStyle(styleName);
+            BaseStyle style = getStyle(styleName);
             if (style != null) {
                 writer.write("<span style=\"color:");
                 writeColor(writer, style.getForegroundColor());
@@ -236,7 +223,7 @@ public class HtmlGenerator {
 
     protected void writeSpanEnd(final Writer writer, final String styleName) throws IOException {
         if (registry != null) {
-            BaseStyle style = getNonPlainStyle(styleName);
+            BaseStyle style = getStyle(styleName);
             if (style != null) {
                 if ((style.getFontStyle() & Font.BOLD) > 0) {
                     writer.write("</strong>");

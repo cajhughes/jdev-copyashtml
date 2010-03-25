@@ -25,8 +25,8 @@ public class CopyController implements Controller {
 
     @Override
     public boolean update(final IdeAction action, final Context context) {
-        action.setEnabled(
-            ClipboardUtil.canBeAccessed() && NodeUtil.isTextNode(context) && EditorUtil.hasActiveSelection(context));
+        action.setEnabled(ClipboardUtil.canBeAccessed() && NodeUtil.isTextNode(context) &&
+                          EditorUtil.hasActiveSelection(context));
         return true;
     }
 }
