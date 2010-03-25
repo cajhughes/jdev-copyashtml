@@ -9,21 +9,20 @@ import java.util.List;
 import oracle.javatools.buffer.LineMap;
 import oracle.javatools.buffer.TextBuffer;
 import oracle.javatools.editor.BasicDocument;
+import oracle.javatools.editor.EditorProperties;
 import oracle.javatools.editor.language.BaseStyle;
 import oracle.javatools.editor.language.DocumentRenderer;
 import oracle.javatools.editor.language.StyledFragment;
 import oracle.javatools.editor.language.StyledFragmentsList;
 
 public class RtfGenerator extends Generator {
-    private CopyPreferences preferences;
     private List<BaseStyle> baseStyles = null;
 
-    public RtfGenerator(final BasicDocument document, final CopyPreferences prefs) {
+    public RtfGenerator(final BasicDocument document) {
         super(document);
-        preferences = prefs;
     }
 
-    public void generateRTF(final Writer writer) throws IOException {
+    public void generateRTF(final Writer writer, final CopyPreferences prefs) throws IOException {
         TextBuffer textBuffer = document.getTextBuffer();
         DocumentRenderer renderer = document.getDocumentRenderer();
         LineMap lineMap = textBuffer.getLineMap();
@@ -31,9 +30,9 @@ public class RtfGenerator extends Generator {
         StyledFragmentsList fragmentList = renderer.renderLines(0, lineCount - 1);
         baseStyles = getBaseStyles(fragmentList);
         int numFragments = fragmentList.size();
-        writer.write("{\\rtf1\\ansi{\\fonttbl{\\f0\\fnil " + preferences.getFontFamily() + ";}}");
+        writer.write("{\\rtf1\\ansi{\\fonttbl{\\f0\\fnil " + getFontFamily(prefs) + ";}}");
         writeColorTable(writer);
-        writer.write("{\\pard\\f0 ");
+        writer.write("{\\pard\\f0\\fs" + (getFontSize(prefs)*2) + " ");
         for (int i = 0; i < numFragments; i++) {
             StyledFragment fragment = fragmentList.get(i);
             if (fragment != null) {
@@ -64,6 +63,34 @@ public class RtfGenerator extends Generator {
         return colorTable;
     }
 
+    protected String getFontFamily(final CopyPreferences prefs) {
+        String result = null;
+        if (prefs != null) {
+            result = prefs.getFontFamily();
+        }
+        if (result == null) {
+            EditorProperties properties = EditorProperties.getProperties();
+            if (properties != null) {
+                result = properties.getBaseFont().getFamily();
+            }
+        }
+        return result;
+    }
+
+    protected int getFontSize(final CopyPreferences prefs) {
+        int result = 0;
+        if (prefs != null) {
+            result = prefs.getFontSize();
+        }
+        if (result == 0) {
+            EditorProperties properties = EditorProperties.getProperties();
+            if (properties != null) {
+                result = properties.getBaseFont().getSize();
+            }
+        }
+        return result;
+    }
+
     protected void writeColorTable(final Writer writer) throws IOException {
         if (baseStyles != null) {
             writer.write("{\\colortbl;");
@@ -91,9 +118,6 @@ public class RtfGenerator extends Generator {
                 if (colorIndex >= 0) {
                     // Color Table references are 1-based, so add 1 to the index
                     writer.write("\\cf" + (colorIndex + 1));
-                }
-                if (preferences != null) {
-                    writer.write("\\fs" + (preferences.getFontSize() * 2));
                 }
                 writer.write(" ");
             }
