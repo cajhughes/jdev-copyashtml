@@ -1,7 +1,8 @@
 package com.cajhughes.jdev.copy;
 
+import com.cajhughes.jdev.copy.model.CopyPreferences;
 import com.cajhughes.jdev.copy.model.CopySettings;
-import com.cajhughes.jdev.copy.view.HtmlFormatter;
+import com.cajhughes.jdev.copy.view.Formatter;
 import com.cajhughes.jdev.copy.view.resource.CopyResourceUtil;
 import com.cajhughes.jdev.util.ClipboardUtil;
 import com.cajhughes.jdev.util.EditorUtil;
@@ -10,7 +11,6 @@ import oracle.ide.Context;
 import oracle.ide.Ide;
 import oracle.ide.controller.Command;
 import oracle.ide.log.LogManager;
-import oracle.ide.model.Node;
 import oracle.ide.model.TextNode;
 
 /**
@@ -39,11 +39,6 @@ public class CopyCommand extends Command {
     }
 
     @Override
-    public Node[] getAffectedNodes() {
-        return null;
-    }
-
-    @Override
     public String getName() {
         return EXTENSION_NAME;
     }
@@ -61,10 +56,11 @@ public class CopyCommand extends Command {
             final TextNode node = (TextNode)context.getNode();
             final StringWriter writer = new StringWriter();
             try {
-                final HtmlFormatter formatter =
-                    new HtmlFormatter(getFilename(node), EditorUtil.getSelectedText(context));
-                formatter.format(writer, CopySettings.getCurrent().getCopyFormat());
-                ClipboardUtil.setContents(writer);
+                String selectedText = EditorUtil.getSelectedText(context);
+                CopyPreferences prefs = CopySettings.getCurrent();
+                final Formatter formatter = new Formatter(getFilename(node), selectedText);
+                formatter.format(writer, prefs);
+                ClipboardUtil.setContents(writer, prefs.getCopyFormat(), selectedText);
             }
             catch (Exception e) {
                 LogManager.getLogManager().getMsgPage().log(e);
@@ -79,7 +75,8 @@ public class CopyCommand extends Command {
     private String getFilename(final TextNode node) {
         String filename = node.getShortLabel();
         try {
-            if (Class.forName("oracle.ide.db.model.DBObjectNode").isInstance(node)) {
+            if (Class.forName("oracle.ide.db.model.DBObjectNode").isInstance(node) ||
+                Class.forName("oracle.ide.db.model.SqlNode").isInstance(node)) {
                 if (!filename.endsWith(SQL)) {
                     filename = filename + SQL;
                 }
