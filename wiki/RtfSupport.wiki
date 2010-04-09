@@ -3,7 +3,7 @@
 
 The 11.3.0 release of the extension includes the new ability to copy the currently selected text in [http://en.wikipedia.org/wiki/Rich_Text_Format Rich Text Format] (RTF).  It allows the font name & size to be used for the RTF output to be specified independently via the preferences panel:
 
-http://dl.dropbox.com/u/191565/jdev/copy-font-spec.png
+http://dl.dropbox.com/u/191565/jdev/copy-prefs.png
 
 This functionality has been tested and confirmed to work successfully in:
 
