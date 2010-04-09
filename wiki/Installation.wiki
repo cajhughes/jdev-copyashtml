@@ -13,4 +13,4 @@ The "Copy As HTML/RTF" extension to Oracle's JDeveloper  and SQL Developer IDEs 
 
 Once the IDE has been re-started, select the Tools -> Preferences... menu option to select the format of the output that you wish to have placed in the system clipboard:
 
-http://dl.dropbox.com/u/191565/jdev/copy-preferences.png
+http://dl.dropbox.com/u/191565/jdev/copy-prefs.png
