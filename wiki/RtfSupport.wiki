@@ -23,7 +23,7 @@ It specifies the following surrounding RTF markup:
     \par}}
 }}}
 
-Each [http://www.oracle.com/technology/products/jdev/esdk/api11/oracle/javatools/editor/language/StyledFragment.html StyledFragment] within the active selection is specified with the following markup:
+Each [http://download.oracle.com/docs/cd/E14571_01/apirefs.1111/e13403/oracle/javatools/editor/language/StyledFragment.html StyledFragment] within the active selection is specified with the following markup:
 
 {{{
     {\b\i\cfN <escaped-text>}
