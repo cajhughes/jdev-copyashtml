@@ -30,25 +30,25 @@ public class Formatter {
         BasicDocument document = new BasicDocument(filename);
         document.insertString(0, text, null);
         int format = prefs.getCopyFormat();
+        Generator generator = null;
         if (format == CopyPreferences.CODE) {
-            HtmlGenerator generator = new HtmlGenerator(document);
-            generator.generateCode(writer);
+            generator = new HtmlCodeGenerator(document);
         }
         else if (format == CopyPreferences.PRE) {
-            HtmlGenerator generator = new HtmlGenerator(document);
-            generator.generatePre(writer);
+            generator = new HtmlPreGenerator(document);
         }
         else if (format == CopyPreferences.FULL) {
-            DocumentToHTMLGenerator generator = new DocumentToHTMLGenerator(document, null);
-            generator.generateHTML(writer, getOptions());
+            DocumentToHTMLGenerator fullGenerator = new DocumentToHTMLGenerator(document, null);
+            fullGenerator.generateHTML(writer, getOptions());
         }
         else if (format == CopyPreferences.CODEMARKUP) {
-            HtmlGenerator generator = new HtmlGenerator(document);
-            generator.generateCodeMarkup(writer);
+            generator = new HtmlCodeMarkupGenerator(document);
         }
         else if (format == CopyPreferences.RTF) {
-            RtfGenerator generator = new RtfGenerator(document);
-            generator.generateRTF(writer, prefs);
+            generator = new RtfGenerator(document);
+        }
+        if (generator != null) {
+            generator.generate(writer, prefs);
         }
     }
 

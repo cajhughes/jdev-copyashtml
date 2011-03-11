@@ -22,7 +22,7 @@ public class RtfGenerator extends Generator {
         super(document);
     }
 
-    public void generateRTF(final Writer writer, final CopyPreferences prefs) throws IOException {
+    public void generate(final Writer writer, final CopyPreferences prefs) throws IOException {
         TextBuffer textBuffer = document.getTextBuffer();
         DocumentRenderer renderer = document.getDocumentRenderer();
         LineMap lineMap = textBuffer.getLineMap();

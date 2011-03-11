@@ -17,6 +17,7 @@ import oracle.javatools.editor.EditorProperties;
  */
 public final class EditorUtil {
     private static final int NO_CARET_LINE = -1;
+    public static final String WORKSHEET_CLASS = "oracle.dbtools.worksheet.editor.Worksheet";
 
     private static int getCaretLine(final Context context) {
         int result = NO_CARET_LINE;
@@ -73,7 +74,7 @@ public final class EditorUtil {
                 }
                 else {
                     try {
-                        if (Class.forName("oracle.dbtools.worksheet.editor.Worksheet").isInstance(view)) {
+                        if (Class.forName(WORKSHEET_CLASS).isInstance(view)) {
                             BasicEditorPane pane =
                                 ((oracle.dbtools.worksheet.editor.Worksheet)view).getFocusedEditorPane();
                             if (pane != null) {
