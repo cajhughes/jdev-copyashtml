@@ -1,11 +1,14 @@
 package com.cajhughes.jdev.copy.view;
 
+import com.cajhughes.jdev.copy.model.CopyPreferences;
+import java.io.IOException;
+import java.io.Writer;
 import oracle.javatools.editor.BasicDocument;
 import oracle.javatools.editor.EditorProperties;
 import oracle.javatools.editor.language.BaseStyle;
 import oracle.javatools.editor.language.StyleRegistry;
 
-public class Generator {
+public abstract class Generator {
     protected BasicDocument document = null;
     protected StyleRegistry registry = null;
 
@@ -16,6 +19,8 @@ public class Generator {
             registry = properties.getStyleRegistry();
         }
     }
+    
+    protected abstract void generate(final Writer writer, final CopyPreferences prefs) throws IOException;
 
     protected BaseStyle getStyle(final String styleName) {
         BaseStyle baseStyle = null;

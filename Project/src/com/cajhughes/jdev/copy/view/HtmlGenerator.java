@@ -1,19 +1,13 @@
 package com.cajhughes.jdev.copy.view;
 
-import com.cajhughes.jdev.copy.model.TextBufferHelper;
 import java.awt.Color;
 import java.awt.Font;
 import java.io.IOException;
 import java.io.Writer;
-import oracle.javatools.buffer.LineMap;
-import oracle.javatools.buffer.TextBuffer;
 import oracle.javatools.editor.BasicDocument;
 import oracle.javatools.editor.EditorProperties;
 import oracle.javatools.editor.Utilities;
 import oracle.javatools.editor.language.BaseStyle;
-import oracle.javatools.editor.language.DocumentRenderer;
-import oracle.javatools.editor.language.StyledFragment;
-import oracle.javatools.editor.language.StyledFragmentsList;
 
 /**
  * This class generates the HTML equivalent for the snippet of text selected.
@@ -21,8 +15,8 @@ import oracle.javatools.editor.language.StyledFragmentsList;
  *
  * @author Chris Hughes
  */
-public class HtmlGenerator extends Generator {
-    private int tabSize = 0;
+public abstract class HtmlGenerator extends Generator {
+    protected int tabSize = 0;
 
     public HtmlGenerator(final BasicDocument document) {
         super(document);
@@ -30,88 +24,6 @@ public class HtmlGenerator extends Generator {
         if (properties != null) {
             tabSize = properties.getIntegerProperty(EditorProperties.PROPERTY_TAB_SIZE);
         }
-    }
-
-    public void generateCode(final Writer writer) throws IOException {
-        TextBuffer textBuffer = document.getTextBuffer();
-        LineMap lineMap = textBuffer.getLineMap();
-        int lineCount = lineMap.getLineCount();
-        TextBufferHelper helper = new TextBufferHelper(textBuffer);
-        writer.write("<code>");
-        for (int i = 0; i < lineCount; i++) {
-            int columnCount = 0;
-            StringBuffer line = helper.getLine(i);
-            int lineLength = line.length();
-            for (int j = 0; j < lineLength; j++) {
-                char c = line.charAt(j);
-                switch (c) {
-                    case 10:
-                    case 13:
-                        break;
-                    case 32:
-                        writer.write("&nbsp;");
-                        columnCount++;
-                        break;
-                    default:
-                        columnCount = writeChar(writer, c, columnCount, true);
-                        break;
-                }
-            }
-            if (!helper.isLastLine(i)) {
-                writer.write("<br/>\n");
-            }
-        }
-        writer.write("</code>");
-    }
-
-    public void generateCodeMarkup(final Writer writer) throws IOException {
-        TextBuffer textBuffer = document.getTextBuffer();
-        DocumentRenderer renderer = document.getDocumentRenderer();
-        LineMap lineMap = textBuffer.getLineMap();
-        int lineCount = lineMap.getLineCount();
-        StyledFragmentsList fragmentList = renderer.renderLines(0, lineCount - 1);
-        int numFragments = fragmentList.size();
-        writer.write("<pre>\n<code>\n");
-        int columnCount = 0;
-        for (int i = 0; i < numFragments; i++) {
-            StyledFragment fragment = fragmentList.get(i);
-            if (fragment != null) {
-                int startOffset = fragment.startOffset;
-                int endOffset = fragment.endOffset;
-                String styleName = fragment.styleName;
-                writeSpanStart(writer, styleName);
-                for (int j = startOffset; j < endOffset; j++) {
-                    columnCount = writeChar(writer, textBuffer.getChar(j), columnCount, false);
-                }
-                writeSpanEnd(writer, styleName);
-            }
-        }
-        writer.write("\n</code>\n</pre>");
-    }
-
-    public void generatePre(final Writer writer) throws IOException {
-        TextBuffer textBuffer = document.getTextBuffer();
-        DocumentRenderer renderer = document.getDocumentRenderer();
-        LineMap lineMap = textBuffer.getLineMap();
-        int lineCount = lineMap.getLineCount();
-        StyledFragmentsList fragmentList = renderer.renderLines(0, lineCount - 1);
-        int numFragments = fragmentList.size();
-        writer.write("<pre>");
-        int columnCount = 0;
-        for (int i = 0; i < numFragments; i++) {
-            StyledFragment fragment = fragmentList.get(i);
-            if (fragment != null) {
-                int startOffset = fragment.startOffset;
-                int endOffset = fragment.endOffset;
-                String styleName = fragment.styleName;
-                writeFontStart(writer, styleName);
-                for (int j = startOffset; j < endOffset; j++) {
-                    columnCount = writeChar(writer, textBuffer.getChar(j), columnCount, false);
-                }
-                writeFontEnd(writer, styleName);
-            }
-        }
-        writer.write("</pre>");
     }
 
     protected int writeChar(final Writer writer, final char c, final int column,
@@ -193,11 +105,11 @@ public class HtmlGenerator extends Generator {
         if (registry != null) {
             BaseStyle style = getStyle(styleName);
             if (style != null) {
-                if ((style.getFontStyle() & Font.BOLD) > 0) {
-                    writer.write("</strong>");
-                }
                 if ((style.getFontStyle() & Font.ITALIC) > 0) {
                     writer.write("</em>");
+                }
+                if ((style.getFontStyle() & Font.BOLD) > 0) {
+                    writer.write("</strong>");
                 }
                 writer.write("</font>");
             }
@@ -225,11 +137,11 @@ public class HtmlGenerator extends Generator {
         if (registry != null) {
             BaseStyle style = getStyle(styleName);
             if (style != null) {
-                if ((style.getFontStyle() & Font.BOLD) > 0) {
-                    writer.write("</strong>");
-                }
                 if ((style.getFontStyle() & Font.ITALIC) > 0) {
                     writer.write("</em>");
+                }
+                if ((style.getFontStyle() & Font.BOLD) > 0) {
+                    writer.write("</strong>");
                 }
                 writer.write("</span>");
             }
